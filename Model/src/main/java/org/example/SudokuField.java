@@ -1,9 +1,10 @@
 package org.example;
 
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class SudokuField  {
+public class SudokuField implements Serializable {
 
     private int value;
 

@@ -1,12 +1,13 @@
 package org.example;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
-public class SudokuShape {
+public class SudokuShape implements Serializable {
 
     private List<SudokuField> fields = Arrays.asList(new SudokuField[9]);
 
