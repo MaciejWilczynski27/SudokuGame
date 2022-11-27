@@ -2,7 +2,7 @@ package org.example;
 
 public class SudokuBoardDaoFactory {
 
-    public Dao getFileDao(String fileName) {
-            return new FileSudokuBoardDao(fileName);
+    public Dao<SudokuBoard> getFileDao(String filename) {
+            return new FileSudokuBoardDao(filename);
     }
 }
