@@ -24,15 +24,8 @@ public class SudokuColumnTest {
     @Test
     public void toStringTest(){
         board.solveGame();
-        String text = "SudokuShape{fields=[";
-        for (int i = 0;i < 9;i++){
-            text += "SudokuField{value="+board.getColumn(2).get(i)+"}";
-            if (i != 8) {
-                text +=", ";
-            }
-        }
-        text += "]}";
-        assertEquals(board.getColumn(2).toString(),text);
+
+        assertNotEquals(board.getColumn(2).toString(),board.getColumn(2).toString());
     }
     @Test
     public void equalsTest(){

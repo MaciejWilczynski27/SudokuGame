@@ -1,5 +1,5 @@
 package org.example;
 
-public class SudokuRow extends SudokuShape implements SudokuVerify {
+public class SudokuRow extends SudokuShape implements SudokuVerify,Cloneable {
 
 }

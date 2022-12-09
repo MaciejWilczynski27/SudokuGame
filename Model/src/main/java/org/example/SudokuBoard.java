@@ -3,10 +3,14 @@ package org.example;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
-public class SudokuBoard implements Serializable {
+
+
+public class SudokuBoard implements Serializable,Cloneable {
 
     private SudokuSolver sudokuSolver;
 
@@ -114,16 +118,11 @@ public class SudokuBoard implements Serializable {
         return box;
     }
 
-
     @Override
     public String toString() {
-        return "SudokuBoard{"
-                +
-                "sudokuSolver=" + sudokuSolver
-                +
-                ", board=" + board
-                +
-                '}';
+        return new ToStringBuilder(this)
+                .append("board", board)
+                .toString();
     }
 
     @Override
@@ -131,16 +130,31 @@ public class SudokuBoard implements Serializable {
         if (this == o) {
             return true;
         }
+
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
+
         SudokuBoard that = (SudokuBoard) o;
-        return Objects.equals(sudokuSolver, that.sudokuSolver) && Objects.equals(board, that.board);
+
+        return new EqualsBuilder().append(board, that.board).isEquals();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(sudokuSolver, board);
+        return new HashCodeBuilder(17, 37).append(sudokuSolver).append(board).toHashCode();
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        SudokuSolver solver = new BacktrackingSudokuSolver();
+        SudokuBoard n = new SudokuBoard(solver);
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                n.setBoard(i, j, getBoard(i, j).getFieldValue());
+            }
+        }
+        return n;
     }
 }
 

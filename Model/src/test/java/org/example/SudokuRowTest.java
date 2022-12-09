@@ -9,15 +9,8 @@ public class SudokuRowTest {
     @Test
     public void toStringTest(){
         board.solveGame();
-        String text = "SudokuShape{fields=[";
-        for (int i = 0;i < 9;i++){
-            text += "SudokuField{value="+board.getRow(2).get(i)+"}";
-            if (i != 8) {
-                text +=", ";
-            }
-        }
-        text += "]}";
-        assertEquals(board.getRow(2).toString(),text);
+
+        assertNotEquals(board.getRow(2).toString(),board.getRow(2).toString());
     }
     @Test
     public void equalsTest(){

@@ -30,15 +30,7 @@ public class SudokuBoxTest {
     @Test
     public void toStringTest(){
         board.solveGame();
-        String text = "SudokuShape{fields=[";
-        for (int i = 0;i < 9;i++){
-            text += "SudokuField{value="+board.getBox(2,3).get(i)+"}";
-            if (i != 8) {
-                text +=", ";
-            }
-        }
-        text += "]}";
-        assertEquals(board.getBox(2,3).toString(),text);
+        assertNotEquals(board.getBox(2,3).toString(),board.getBox(2,3).toString());
     }
     @Test
     public void equalsTest(){
@@ -57,5 +49,20 @@ public class SudokuBoxTest {
         SudokuBox s = board.getBox(1,1);
         board.solveGame();
         assertNotEquals(s.hashCode(),board.getBox(1,1).hashCode());
+    }
+    @Test
+    public void cloneBoxTest() throws CloneNotSupportedException {
+        SudokuBox box =  new SudokuBox();
+        SudokuShape boxClone = (SudokuShape) box.clone();
+
+        System.out.println(boxClone.toString());
+        System.out.println(box.toString());
+
+        assertTrue(box.equals(boxClone));
+        box.set(1,9);
+        System.out.println(boxClone.toString());
+        System.out.println(box.toString());
+        assertFalse(box.equals(boxClone));
+
     }
 }

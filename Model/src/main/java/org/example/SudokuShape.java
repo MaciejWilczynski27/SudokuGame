@@ -3,11 +3,15 @@ package org.example;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 
-public class SudokuShape implements Serializable {
+
+
+public class SudokuShape implements Serializable,Cloneable {
 
     private List<SudokuField> fields = Arrays.asList(new SudokuField[9]);
 
@@ -51,26 +55,35 @@ public class SudokuShape implements Serializable {
 
     @Override
     public String toString() {
-        return "SudokuShape{"
-                +
-                "fields=" + fields
-                +
-                '}';
+        return new ToStringBuilder(this)
+                .append("fields", fields)
+                .toString();
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof SudokuShape that)) {
-            return false;
-        }
-        return fields.equals(that.fields);
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        SudokuShape that = (SudokuShape) o;
+
+        return new EqualsBuilder().append(fields, that.fields).isEquals();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(fields);
+        return new HashCodeBuilder(17, 37).append(fields).toHashCode();
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+
+        SudokuShape shape = new SudokuShape();
+            for(int i=0;i<0;i++) {
+                shape.set(i,this.get(i));
+            }
+
+        return shape;
     }
 }
