@@ -23,7 +23,7 @@ public class FileSudokuBoardDaoTest {
         sudokuBoardSecond = fileSudokuBoardDao.read();
 
 
-        assertNotEquals(fileSudokuBoardDao.read(), fileSudokuBoardDao.read()); // ???
+        assertEquals(fileSudokuBoardDao.read(), fileSudokuBoardDao.read()); // ???
 
     }
 

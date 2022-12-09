@@ -30,4 +30,16 @@ public class SudokuRowTest {
         board.solveGame();
         assertNotEquals(s.hashCode(),board.getRow(1).hashCode());
     }
+    @Test
+    public void cloneRowTest() throws CloneNotSupportedException {
+        SudokuSolver sudokuSolver = new BacktrackingSudokuSolver();
+        SudokuBoard sudokuBoard = new SudokuBoard(sudokuSolver);
+        sudokuBoard.solveGame();
+        SudokuRow row =  sudokuBoard.getRow(2);
+        SudokuShape rowClone = (SudokuShape) row.clone();
+        assertTrue(row.equals(rowClone));
+        row.set(0,0);
+        assertFalse(row.equals(rowClone));
+
+    }
 }

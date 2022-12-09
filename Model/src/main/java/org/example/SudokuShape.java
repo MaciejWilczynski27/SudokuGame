@@ -62,9 +62,12 @@ public class SudokuShape implements Serializable,Cloneable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         SudokuShape that = (SudokuShape) o;
 
@@ -78,12 +81,14 @@ public class SudokuShape implements Serializable,Cloneable {
 
     @Override
     public Object clone() throws CloneNotSupportedException {
-
-        SudokuShape shape = new SudokuShape();
-            for(int i=0;i<0;i++) {
-                shape.set(i,this.get(i));
-            }
-
+        Object obj = super.clone();
+        SudokuShape shape = (SudokuShape) obj;
+        this.fields = Arrays.asList(new SudokuField[9]);
+        for (int i = 0;i < 9;i++) {
+            this.fields.set(i,new SudokuField(shape.fields.get(i)));
+        }
         return shape;
     }
+
+
 }

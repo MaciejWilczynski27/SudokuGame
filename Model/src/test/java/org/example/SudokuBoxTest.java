@@ -52,17 +52,13 @@ public class SudokuBoxTest {
     }
     @Test
     public void cloneBoxTest() throws CloneNotSupportedException {
-        SudokuBox box =  new SudokuBox();
+        SudokuSolver sudokuSolver = new BacktrackingSudokuSolver();
+        SudokuBoard sudokuBoard = new SudokuBoard(sudokuSolver);
+        sudokuBoard.solveGame();
+        SudokuBox box =  sudokuBoard.getBox(2,3);
         SudokuShape boxClone = (SudokuShape) box.clone();
-
-        System.out.println(boxClone.toString());
-        System.out.println(box.toString());
-
         assertTrue(box.equals(boxClone));
-        box.set(1,9);
-        System.out.println(boxClone.toString());
-        System.out.println(box.toString());
+        box.set(0,0);
         assertFalse(box.equals(boxClone));
-
     }
 }

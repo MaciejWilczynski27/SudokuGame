@@ -12,6 +12,14 @@ public class SudokuField implements Serializable,Comparable<SudokuField>,Cloneab
 
     private int value;
 
+    public SudokuField() {
+
+    }
+
+    public SudokuField(SudokuField sudokuField) {
+        this.value = sudokuField.value;
+    }
+
     public int getFieldValue() {
         return value;
     }

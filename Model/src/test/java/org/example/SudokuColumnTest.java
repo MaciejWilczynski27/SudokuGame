@@ -46,12 +46,15 @@ public class SudokuColumnTest {
         assertNotEquals(s.hashCode(),board.getColumn(1).hashCode());
     }
     @Test
-    public void cloneBoxTest() throws CloneNotSupportedException {
-        SudokuBox box = new SudokuBox();
-        SudokuBox boxClone = (SudokuBox) box.clone();
-        assertTrue(box.equals(boxClone));
-        box.set(1,9);
-        assertFalse(box.equals(boxClone));
+    public void cloneColumnTest() throws CloneNotSupportedException {
+        SudokuSolver sudokuSolver = new BacktrackingSudokuSolver();
+        SudokuBoard sudokuBoard = new SudokuBoard(sudokuSolver);
+        sudokuBoard.solveGame();
+        SudokuColumn column =  sudokuBoard.getColumn(2);
+        SudokuShape columnClone = (SudokuShape) column.clone();
+        assertTrue(column.equals(columnClone));
+        column.set(0,0);
+        assertFalse(column.equals(columnClone));
 
     }
 }
