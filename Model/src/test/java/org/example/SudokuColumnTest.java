@@ -45,4 +45,13 @@ public class SudokuColumnTest {
         board.solveGame();
         assertNotEquals(s.hashCode(),board.getColumn(1).hashCode());
     }
+    @Test
+    public void cloneBoxTest() throws CloneNotSupportedException {
+        SudokuBox box = new SudokuBox();
+        SudokuBox boxClone = (SudokuBox) box.clone();
+        assertTrue(box.equals(boxClone));
+        box.set(1,9);
+        assertFalse(box.equals(boxClone));
+
+    }
 }

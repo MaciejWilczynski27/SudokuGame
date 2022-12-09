@@ -8,7 +8,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 
 
-public class SudokuField implements Serializable {
+public class SudokuField implements Serializable,Comparable<SudokuField>,Cloneable {
 
     private int value;
 
