@@ -202,7 +202,7 @@ class SudokuBoardTest {
             assertTrue(flag);
         }
         @Test
-        public void cloneTest() throws CloneNotSupportedException {
+        public void cloneTest(){
         SudokuSolver sudokuSolver= new BacktrackingSudokuSolver();
         SudokuBoard sudokuBoard = new SudokuBoard(sudokuSolver);
         sudokuBoard.solveGame();
@@ -211,7 +211,8 @@ class SudokuBoardTest {
             System.out.println(sudokuBoardCopy.toString());
         assertTrue(sudokuBoard.equals(sudokuBoardCopy));
         sudokuBoard.solveGame();
+            System.out.println(sudokuBoard.toString());
+            System.out.println(sudokuBoardCopy.toString());
         assertFalse(sudokuBoard.equals(sudokuBoardCopy));
-
         }
     }

@@ -1,5 +1,7 @@
 package org.example;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+
+import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -32,5 +34,22 @@ public class SudokuFieldTest {
         assertEquals(field1.toString(), field1.toString());
         field1.setFieldValue(2);
         assertEquals(field1.toString(), field1.toString());
+    }
+    @Test
+    public void compareToTest() {
+        SudokuField sudokuField = new SudokuField();
+        SudokuField sudokuField1 = new SudokuField();
+        assertTrue(sudokuField.compareTo(sudokuField1) == 0);
+        sudokuField.setFieldValue(2);
+        assertTrue(sudokuField.compareTo(sudokuField1) == 1);
+        sudokuField1.setFieldValue(8);
+        assertTrue(sudokuField.compareTo(sudokuField1) == -1);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void compareToNullPointerTest() {
+        SudokuField sudokuField = new SudokuField();
+        SudokuField sudokuField1 = null;
+        sudokuField.compareTo(sudokuField1);
     }
 }

@@ -27,7 +27,6 @@ public class SudokuShape implements Serializable,Cloneable {
 
     public void set(int x, int value) {
         this.fields.get(x).setFieldValue(value);
-        this.verify();
     }
 
     public boolean verify() {

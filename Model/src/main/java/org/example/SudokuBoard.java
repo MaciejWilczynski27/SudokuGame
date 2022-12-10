@@ -39,6 +39,19 @@ public class SudokuBoard implements Serializable,Cloneable {
         sudokuSolver = solver;
     }
 
+    public SudokuBoard(SudokuBoard sudokuBoard) {
+        for (int i = 0; i < 9; i++) {
+            this.board.set(i, Arrays.asList(new SudokuField[9]));
+        }
+        for (int x = 0; x < 9; x++) {
+            for (int y = 0; y < 9; y++) {
+                this.board.get(x).set(y, sudokuBoard.getBoard(x,y));
+            }
+        }
+        this.sudokuSolver = sudokuBoard.getSudokuSolver(); {
+        };
+    }
+
     public SudokuSolver getSudokuSolver() {
         return sudokuSolver;
     }
@@ -69,8 +82,8 @@ public class SudokuBoard implements Serializable,Cloneable {
     }
 
     public void setBoard(int x, int y, int n) {
+        board.get(x).set(y,new SudokuField());
         board.get(x).get(y).setFieldValue(n);
-        fieldVerify(x, y);
 
     }
 
@@ -146,15 +159,8 @@ public class SudokuBoard implements Serializable,Cloneable {
     }
 
     @Override
-    public Object clone() throws CloneNotSupportedException {
-        SudokuSolver solver = new BacktrackingSudokuSolver();
-        SudokuBoard n = new SudokuBoard(solver);
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                n.setBoard(i, j, getBoard(i, j).getFieldValue());
-            }
-        }
-        return n;
+    public Object clone() {
+        return new SudokuBoard(this);
     }
 }
 
