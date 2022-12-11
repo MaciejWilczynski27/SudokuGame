@@ -48,32 +48,29 @@ public class SudokuBoard implements Serializable,Cloneable {
                 this.board.get(x).set(y, sudokuBoard.getBoard(x,y));
             }
         }
-        this.sudokuSolver = sudokuBoard.getSudokuSolver(); {
-        };
+        this.sudokuSolver = sudokuBoard.getSudokuSolver();
     }
 
     public SudokuSolver getSudokuSolver() {
         return sudokuSolver;
     }
 
-    public void print() {
-        /*
+    public String print() {
+        String text = "";
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                System.out.print(getBoard(i,j).getFieldValue() + "  ");
+                text += getBoard(i,j).getFieldValue() + "  ";
                 if (j % 3 == 2) {
-                    System.out.print("  ");
+                    text += "  ";
                 }
             }
-            System.out.println();
+            text += "\n";
             if (i % 3 == 2) {
-                System.out.println();
+                text += "\n";
             }
         }
-        System.out.println();
-        System.out.println();
-        */
         checkBoard();
+        return text;
     }
 
     public SudokuField getBoard(int x, int y) {
@@ -97,6 +94,7 @@ public class SudokuBoard implements Serializable,Cloneable {
         }
         return true;
     }
+
 
     public void solveGame() {
         sudokuSolver.solve(this);

@@ -207,12 +207,8 @@ class SudokuBoardTest {
         SudokuBoard sudokuBoard = new SudokuBoard(sudokuSolver);
         sudokuBoard.solveGame();
         SudokuBoard sudokuBoardCopy = (SudokuBoard) sudokuBoard.clone();
-            System.out.println(sudokuBoard.toString());
-            System.out.println(sudokuBoardCopy.toString());
         assertTrue(sudokuBoard.equals(sudokuBoardCopy));
         sudokuBoard.solveGame();
-            System.out.println(sudokuBoard.toString());
-            System.out.println(sudokuBoardCopy.toString());
         assertFalse(sudokuBoard.equals(sudokuBoardCopy));
         }
     }

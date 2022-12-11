@@ -8,10 +8,10 @@
    <children>
       <AnchorPane layoutX="200.0" layoutY="74.0" prefHeight="200.0" prefWidth="200.0">
          <children>
-            <Button fx:id="Poziom1" layoutX="67.0" layoutY="14.0" mnemonicParsing="false" text="Poziom 1" />
-            <Button fx:id="Poziom2" layoutX="67.0" layoutY="53.0" mnemonicParsing="false" text="Poziom 2" />
-            <Button fx:id="Poziom3" layoutX="67.0" layoutY="88.0" mnemonicParsing="false" text="Poziom 3" />
-            <Button fx:id="RozpGre" layoutX="53.0" layoutY="130.0" mnemonicParsing="false" onAction="#loadGame" text="Rozpocznij grę" />
+            <Button fx:id="bpoziom1" layoutX="67.0" layoutY="14.0" mnemonicParsing="false" onAction="#setPoziom1" text="Poziom 1" />
+            <Button fx:id="bpoziom2" layoutX="67.0" layoutY="53.0" mnemonicParsing="false" onAction="#setPoziom2" text="Poziom 2" />
+            <Button fx:id="bpoziom3" layoutX="67.0" layoutY="88.0" mnemonicParsing="false" onAction="#setPoziom3" text="Poziom 3" />
+
          </children>
       </AnchorPane>
    </children>
