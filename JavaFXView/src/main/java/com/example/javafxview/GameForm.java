@@ -19,4 +19,13 @@ public class GameForm implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
     }
+
+    public void printBoard(Level level) {
+        SudokuSolver solver = new BacktrackingSudokuSolver();
+        SudokuBoard board = new SudokuBoard(solver);
+        board.solveGame();
+        level.removeFields(board);
+        obszarSudoku.setText(board.print());
+    }
+
 }
