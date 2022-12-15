@@ -49,9 +49,9 @@ public class Menu {
         Scene scene = new Scene(root, 600, 500);
         stage.setTitle("Gra");
         stage.setScene(scene);
-        gameForm = (GameForm) loader.getController();
+        gameForm = loader.getController();
         gameForm.printBoard(level);
-        stage.show();
+
 
     }
 
