@@ -2,9 +2,7 @@ module com.example.javafxview {
     requires javafx.controls;
     requires javafx.fxml;
     requires ModelProject;
-
-
-    
+    requires log4j;
 
 
     opens com.example.javafxview to javafx.fxml;

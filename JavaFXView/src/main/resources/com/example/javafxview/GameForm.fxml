@@ -5,6 +5,7 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.javafxview.GameForm">
     <children>
@@ -39,7 +40,8 @@
 
         </GridPane>
       <Button fx:id="bzapiszgre" layoutX="126.0" layoutY="14.0" mnemonicParsing="false" onAction="#zapiszGre" text="Zapisz grę" />
-      <Button fx:id="bsprawdz" layoutX="290.0" layoutY="14.0" mnemonicParsing="false" onAction="#sprawdzPlansze" text="Sprawdź planszę" />
+      <Button fx:id="bsprawdz" layoutX="220.0" layoutY="14.0" mnemonicParsing="false" onAction="#sprawdzPlansze" text="Sprawdź planszę" />
+      <Text fx:id="twynik" layoutX="343.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" />
 
     </children>
 </AnchorPane>

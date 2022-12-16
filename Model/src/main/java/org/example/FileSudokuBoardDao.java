@@ -16,7 +16,7 @@ public class FileSudokuBoardDao implements Dao<SudokuBoard>, AutoCloseable {
 
     @Override
     public SudokuBoard read() {
-    SudokuBoard s = null;
+    SudokuBoard s;
         try (FileInputStream fileInputStream = new FileInputStream(filename);
              ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
             s = (SudokuBoard) objectInputStream.readObject();
