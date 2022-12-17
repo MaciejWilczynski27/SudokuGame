@@ -1,6 +1,7 @@
 package com.example.javafxview;
 
 import java.io.File;
+import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
@@ -8,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -31,6 +33,9 @@ public class GameForm implements Initializable {
     SudokuSolver solver = new BacktrackingSudokuSolver();
     SudokuBoard board = new SudokuBoard(solver);
     SudokuBoard playerBoard;
+    SudokuBoard playerBoardClone;
+    SudokuBoard[] bothSudoku;
+
     private Logger logger = Logger.getLogger(GameForm.class);
 
     @Override
@@ -39,11 +44,11 @@ public class GameForm implements Initializable {
     }
 
     public void printBoard(Level level) throws GameBuildFailException {
-
         board.solveGame();
         playerBoard = (SudokuBoard) board.clone();
 
         level.removeFields(playerBoard);
+        playerBoardClone = (SudokuBoard) playerBoard.clone();
         TextArea textArea = new TextArea();
         for (int x = 0; x < 9; x++) {
             for (int y = 0; y < 9; y++) {
@@ -67,8 +72,8 @@ public class GameForm implements Initializable {
 
         SudokuBoardDaoFactory factory = new SudokuBoardDaoFactory();
         Dao<SudokuBoard> fileSudokuBoardDao;
-        fileSudokuBoardDao = factory.getFileDao("save");
         try {
+        fileSudokuBoardDao = factory.getFileDao("save");
             if (playerBoard == null) {
                 throw new CantSaveException(resourceBundle.getString("cantSave"));
             }
@@ -83,7 +88,7 @@ public class GameForm implements Initializable {
                     }
                 }
             }
-            fileSudokuBoardDao.write(playerBoard);
+          fileSudokuBoardDao.saveBoards(playerBoard,playerBoardClone);
         } catch (CantSaveException e) {
             logger.error(resourceBundle.getString("cantSave"));
             throw new CantSaveException(resourceBundle.getString("cantSave"));
@@ -170,17 +175,22 @@ public class GameForm implements Initializable {
             fileSudokuBoardDao = factory.getFileDao("save");
 
             playerBoard = null;
-            playerBoard = fileSudokuBoardDao.read();
+            playerBoard = fileSudokuBoardDao.loadBoards().get(0);
+            playerBoardClone = fileSudokuBoardDao.loadBoards().get(1);
 
             TextArea textArea = new TextArea();
             for (int x = 0; x < 9; x++) {
                 for (int y = 0; y < 9; y++) {
-                    if (playerBoard.getBoard(y, x).getFieldValue() != 0) {
+                    if (playerBoardClone.getBoard(y, x).getFieldValue() != 0) {
                         textArea = new TextArea(String.valueOf(playerBoard.getBoard(y, x).getFieldValue()));
                         textArea.setEditable(false);
                         textArea.setFont(Font.font(14));
                         obszarSudoku.add(textArea, x, y);
 
+                    } else if(playerBoardClone.getBoard(y,x).getFieldValue() ==0 && playerBoard.getBoard(y,x).getFieldValue() != 0) {
+                        textArea = new TextArea(String.valueOf(playerBoard.getBoard(y, x).getFieldValue()));
+                        textArea.setFont(Font.font(14));
+                        obszarSudoku.add(textArea, x, y);
                     } else {
                         TextArea textArea1 = new TextArea();
                         textArea.setFont(Font.font(14));
