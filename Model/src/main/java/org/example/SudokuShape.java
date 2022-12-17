@@ -79,14 +79,22 @@ public class SudokuShape implements Serializable,Cloneable {
     }
 
     @Override
-    public Object clone() throws CloneNotSupportedException {
-        Object obj = super.clone();
-        SudokuShape shape = (SudokuShape) obj;
-        this.fields = Arrays.asList(new SudokuField[9]);
-        for (int i = 0;i < 9;i++) {
-            this.fields.set(i,new SudokuField(shape.fields.get(i)));
+    public Object clone() {
+        try {
+            Object obj = super.clone();
+            SudokuShape shape = (SudokuShape) obj;
+            this.fields = Arrays.asList(new SudokuField[9]);
+            for (int i = 0; i < 9; i++) {
+                this.fields.set(i, new SudokuField(shape.fields.get(i)));
+            }
+            return shape;
+        } catch(CloneNotSupportedException e) {
+            try {
+                throw new DataCorruptException("dataError",e);
+            } catch (DataCorruptException ex) {
+                throw new RuntimeException(ex);
+            }
         }
-        return shape;
     }
 
 

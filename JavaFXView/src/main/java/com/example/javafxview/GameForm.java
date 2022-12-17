@@ -1,9 +1,6 @@
 package com.example.javafxview;
 
-
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
@@ -29,7 +26,7 @@ public class GameForm implements Initializable {
      public Button bsprawdz;
      @FXML
      public Text twynik;
-    private ResourceBundle resourceBundle ;
+    private ResourceBundle resourceBundle;
 
     SudokuSolver solver = new BacktrackingSudokuSolver();
     SudokuBoard board = new SudokuBoard(solver);
@@ -41,19 +38,17 @@ public class GameForm implements Initializable {
 
     }
 
-
-
-    public void printBoard(Level level) throws IOException {
+    public void printBoard(Level level) throws GameBuildFailException {
 
         board.solveGame();
         playerBoard = (SudokuBoard) board.clone();
 
         level.removeFields(playerBoard);
         TextArea textArea = new TextArea();
-        for(int x = 0;x < 9;x++) {
-            for(int y = 0;y < 9;y++) {
-                if (playerBoard.getBoard(y,x).getFieldValue()!=0) {
-                    textArea = new TextArea(String.valueOf(playerBoard.getBoard(y,x).getFieldValue()));
+        for (int x = 0; x < 9; x++) {
+            for (int y = 0; y < 9; y++) {
+                if (playerBoard.getBoard(y, x).getFieldValue() != 0) {
+                    textArea = new TextArea(String.valueOf(playerBoard.getBoard(y, x).getFieldValue()));
                     textArea.setEditable(false);
                     textArea.setFont(Font.font(14));
                     obszarSudoku.add(textArea, x, y);
@@ -68,15 +63,15 @@ public class GameForm implements Initializable {
 
     }
 
-    public void zapiszGre() throws IOException, ClassNotFoundException,CantSaveException {
+    public void zapiszGre() throws GameBuildFailException, CantSaveException, DataCorruptException {
 
         SudokuBoardDaoFactory factory = new SudokuBoardDaoFactory();
         Dao<SudokuBoard> fileSudokuBoardDao;
         fileSudokuBoardDao = factory.getFileDao("save");
         try {
-        if (playerBoard == null) {
-            throw new CantSaveException(resourceBundle.getString("cantSave"));
-        }
+            if (playerBoard == null) {
+                throw new CantSaveException(resourceBundle.getString("cantSave"));
+            }
             for (int i = 0; i < 9; i++) {
                 for (int j = 0; j < 9; j++) {
                     TextArea tmp = (TextArea) getNodeByRowColumnIndex(i, j, obszarSudoku);
@@ -89,8 +84,9 @@ public class GameForm implements Initializable {
                 }
             }
             fileSudokuBoardDao.write(playerBoard);
-        } catch(CantSaveException e) {
+        } catch (CantSaveException e) {
             logger.error(resourceBundle.getString("cantSave"));
+            throw new CantSaveException(resourceBundle.getString("cantSave"));
         }
     }
 
@@ -102,12 +98,12 @@ public class GameForm implements Initializable {
         boolean clFlag = true;
         boolean rwFlag = true;
         boolean zeroFlag = false;
-        for(int i = 0;i < 9;i++) {
-            for(int j = 0;j < 9;j++) {
+        for (int i = 0;i < 9;i++) {
+            for (int j = 0;j < 9;j++) {
                 TextArea tmp = (TextArea) getNodeByRowColumnIndex(i,j,obszarSudoku);
-                if(tmp.getText() != "" && tmp.getText().chars().allMatch(Character::isDigit)) {
+                if (tmp.getText() != "" && tmp.getText().chars().allMatch(Character::isDigit)) {
                     playerBoard.setBoard(i, j, Integer.valueOf(tmp.getText()));
-                }
+                   }
                 else {
                     playerBoard.setBoard(i, j, 0);
                     zeroFlag = true;
@@ -126,7 +122,7 @@ public class GameForm implements Initializable {
         for (int x = 0;x < 9;x++) {
                 cl = playerBoard.getColumn(x);
 
-                if(!cl.verify()) {
+                if (!cl.verify()) {
                     clFlag = false;
                     break;
                 }
@@ -138,9 +134,9 @@ public class GameForm implements Initializable {
                 break;
             }
         }
-        if( boxFlag && rwFlag && clFlag && zeroFlag) {
+        if (boxFlag && rwFlag && clFlag && zeroFlag) {
             twynik.setText(resourceBundle.getString("notFullyCorrect"));
-        } else if(boxFlag && rwFlag && clFlag) {
+        } else if (boxFlag && rwFlag && clFlag) {
 
             twynik.setText(resourceBundle.getString("correctYouWon"));
         }
@@ -149,12 +145,12 @@ public class GameForm implements Initializable {
         }
     }
 
-    public Node getNodeByRowColumnIndex (final int row, final int column,GridPane gridPane) {
+    public Node getNodeByRowColumnIndex(final int row, final int column,GridPane gridPane) {
         Node result = null;
         ObservableList<Node> childrens = gridPane.getChildren();
 
         for (Node node : childrens) {
-            if(gridPane.getRowIndex(node) == row && gridPane.getColumnIndex(node) == column) {
+            if (gridPane.getRowIndex(node) == row && gridPane.getColumnIndex(node) == column) {
                 result = node;
                 break;
             }
@@ -163,44 +159,42 @@ public class GameForm implements Initializable {
         return result;
     }
 
-    public void wczytajGre() throws IOException, ClassNotFoundException, MissingSaveException {
+    public void wczytajGre() throws DataCorruptException, MissingSaveException, GameBuildFailException {
 
+        SudokuBoardDaoFactory factory = new SudokuBoardDaoFactory();
+        Dao<SudokuBoard> fileSudokuBoardDao;
+        File file = new File("save.txt");
+        if (!file.exists()) {
+            throw new MissingSaveException(resourceBundle.getString("lackOfSaveFile"));
+        } else {
+            fileSudokuBoardDao = factory.getFileDao("save");
 
-            SudokuBoardDaoFactory factory = new SudokuBoardDaoFactory();
-            Dao<SudokuBoard> fileSudokuBoardDao;
-            File file = new File("save.txt");
-            if(!file.exists()) {
-                throw new MissingSaveException(resourceBundle.getString("lackOfSaveFile"));
-            }
-            else {
-                fileSudokuBoardDao = factory.getFileDao("save");
+            playerBoard = null;
+            playerBoard = fileSudokuBoardDao.read();
 
-                playerBoard = null;
-                playerBoard = fileSudokuBoardDao.read();
+            TextArea textArea = new TextArea();
+            for (int x = 0; x < 9; x++) {
+                for (int y = 0; y < 9; y++) {
+                    if (playerBoard.getBoard(y, x).getFieldValue() != 0) {
+                        textArea = new TextArea(String.valueOf(playerBoard.getBoard(y, x).getFieldValue()));
+                        textArea.setEditable(false);
+                        textArea.setFont(Font.font(14));
+                        obszarSudoku.add(textArea, x, y);
 
-                TextArea textArea = new TextArea();
-                for (int x = 0; x < 9; x++) {
-                    for (int y = 0; y < 9; y++) {
-                        if (playerBoard.getBoard(y, x).getFieldValue() != 0) {
-                            textArea = new TextArea(String.valueOf(playerBoard.getBoard(y, x).getFieldValue()));
-                            textArea.setEditable(false);
-                            textArea.setFont(Font.font(14));
-                            obszarSudoku.add(textArea, x, y);
-
-                        } else {
-                            TextArea textArea1 = new TextArea();
-                            textArea.setFont(Font.font(14));
-                            obszarSudoku.add(textArea1, x, y);
-                        }
+                    } else {
+                        TextArea textArea1 = new TextArea();
+                        textArea.setFont(Font.font(14));
+                        obszarSudoku.add(textArea1, x, y);
                     }
                 }
             }
+        }
 
-}
+    }
 
     @FXML
     public void changeLanguage(String temp) {
-        resourceBundle = ResourceBundle.getBundle("bundle_"+ temp);
+        resourceBundle = ResourceBundle.getBundle("bundle_" + temp);
         bzapiszgre.setText(resourceBundle.getString("saveGame"));
         bsprawdz.setText(resourceBundle.getString("check"));
 

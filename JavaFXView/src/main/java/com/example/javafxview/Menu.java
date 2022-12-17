@@ -1,6 +1,5 @@
 package com.example.javafxview;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -13,7 +12,8 @@ import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.apache.log4j.Logger;
-import org.example.CantSaveException;
+import org.example.DataCorruptException;
+import org.example.GameBuildFailException;
 import org.example.MissingSaveException;
 
 public class Menu implements Initializable {
@@ -57,20 +57,21 @@ public class Menu implements Initializable {
     static
     GameForm gameForm = null;
 
-    public void setPoziom1() throws IOException {
+    public void setPoziom1() {
         openForm(Level.EASY);
         logger.info(getResourceBundle().getString("lvlChoose") + " 1");
     }
 
-    public void setPoziom2() throws IOException {
+    public void setPoziom2() {
         openForm(Level.MEDIUM);
         logger.info(getResourceBundle().getString("lvlChoose") + " 2");
     }
 
-    public void setPoziom3() throws IOException {
+    public void setPoziom3()  {
         openForm(Level.HARD);
         logger.info(getResourceBundle().getString("lvlChoose") + " 3");
     }
+
     @FXML
     public void languageChange(String language) {
         setResourceBundle(ResourceBundle.getBundle("bundle_" + language));
@@ -83,54 +84,76 @@ public class Menu implements Initializable {
         aut2.setText(getResourceBundle().getString("author") + " 2: " + auth.getString("author2"));
 
     }
-    public void setEnglish() throws IOException {
+
+    public void setEnglish() {
         language = "en_EN";
         languageChange(language);
     }
-    public void setPolish() throws IOException {
+
+    public void setPolish() {
         language = "pl_PL";
         languageChange(language);
     }
 
-    public void showStage() throws IOException {
-        Stage stage = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("Menu.fxml"));
-        Scene scene = new Scene(root, 600, 500);
-        stage.setTitle("SudokuGame");
-        stage.setScene(scene);
-
-        stage.show();
+    public void showStage() throws GameBuildFailException {
+        try {
+            Stage stage = new Stage();
+            Parent root = FXMLLoader.load(getClass().getResource("Menu.fxml"));
+            Scene scene = new Scene(root, 600, 500);
+            stage.setTitle("SudokuGame");
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            logger.error(resourceBundle.getString("loadGameError"));
+            throw new GameBuildFailException(resourceBundle.getString("loadGameError"),e);
+        }
     }
 
-    public void openForm(Level level) throws IOException {
-
+    public void openForm(Level level) {
 
         Stage stage = new Stage();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("GameForm.fxml"));
-        Parent root = loader.load();
-        Scene scene = new Scene(root, 600, 500);
-        stage.setTitle(getResourceBundle().getString("Game"));
-        stage.setScene(scene);
-        gameForm = loader.getController();
+        try {
+            Parent root = loader.load();
+            Scene scene = new Scene(root, 600, 500);
+            stage.setTitle(getResourceBundle().getString("Game"));
+            stage.setScene(scene);
+            gameForm = loader.getController();
+        } catch (IOException e) {
+            logger.error(resourceBundle.getString("loadGameError"));
+        }
         gameForm.changeLanguage(language);
-        gameForm.printBoard(level);
-        stage.show();
+        try {
+            gameForm.printBoard(level);
+            stage.show();
+        } catch (GameBuildFailException e) {
+            logger.error(resourceBundle.getString("loadGameError"));
+        }
 
     }
 
-    public void wczytajGre() throws IOException, ClassNotFoundException {
+    public void wczytajGre() throws GameBuildFailException, MissingSaveException, DataCorruptException {
         Stage stage = new Stage();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("GameForm.fxml"));
-        Parent root = loader.load();
-        Scene scene = new Scene(root, 600, 500);
-        stage.setTitle(getResourceBundle().getString("Game"));
-        stage.setScene(scene);
-        gameForm = loader.getController();
+        try {
+            Parent root = loader.load();
+            Scene scene = new Scene(root, 600, 500);
+            stage.setTitle(getResourceBundle().getString("Game"));
+            stage.setScene(scene);
+            gameForm = loader.getController();
+        }
+        catch (IOException e) {
+            logger.error(resourceBundle.getString("loadGameError"));
+            throw new GameBuildFailException(resourceBundle.getString("loadGameError"),e);
+        }
         gameForm.changeLanguage(language);
         try {
             gameForm.wczytajGre();
         } catch (MissingSaveException e) {
             logger.error(resourceBundle.getString("lackOfSaveFile"));
+            throw new MissingSaveException(resourceBundle.getString("lackOfSaveFile"),e);
+        } catch (GameBuildFailException e) {
+            logger.error(resourceBundle.getString("loadGameError"),e);
         }
         stage.show();
     }
