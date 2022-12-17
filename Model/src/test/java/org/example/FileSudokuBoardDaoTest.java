@@ -1,6 +1,10 @@
 package org.example;
 
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -49,5 +53,15 @@ public class FileSudokuBoardDaoTest {
             assertNotNull(factory.getFileDao("getFileDaoTest"));
         }
 
+        @Test
+    public void saveLoadBoardTest() throws GameBuildFailException {
+            sudokuBoard.solveGame();
+            sudokuBoardSecond = (SudokuBoard) sudokuBoard.clone();
+            fileSudokuBoardDao = factory.getFileDao("writeReadTest");
+            fileSudokuBoardDao.saveBoards(sudokuBoard,sudokuBoardSecond);
+            List<SudokuBoard> list;
+            list = fileSudokuBoardDao.loadBoards();
+            assertTrue(list.get(0).equals(list.get(1)));
+        }
     }
 
