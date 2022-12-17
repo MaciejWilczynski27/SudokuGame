@@ -46,7 +46,7 @@ public class SudokuColumnTest {
         assertNotEquals(s.hashCode(),board.getColumn(1).hashCode());
     }
     @Test
-    public void cloneColumnTest() throws CloneNotSupportedException {
+    public void cloneColumnTest() {
         SudokuSolver sudokuSolver = new BacktrackingSudokuSolver();
         SudokuBoard sudokuBoard = new SudokuBoard(sudokuSolver);
         sudokuBoard.solveGame();

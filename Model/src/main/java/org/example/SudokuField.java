@@ -40,13 +40,10 @@ public class SudokuField implements Serializable,Comparable<SudokuField>,Cloneab
         if (this == o) {
             return true;
         }
-
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-
         SudokuField that = (SudokuField) o;
-
         return new EqualsBuilder().append(value, that.value).isEquals();
     }
 
@@ -57,9 +54,8 @@ public class SudokuField implements Serializable,Comparable<SudokuField>,Cloneab
 
     @Override
     public int compareTo(SudokuField o) throws NullPointerException {
-        Integer a = o.getFieldValue();
         Integer b = this.getFieldValue();
-        return b.compareTo(a);
+        return b.compareTo(o.getFieldValue());
     }
 
 

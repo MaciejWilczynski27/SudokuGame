@@ -31,7 +31,7 @@ public class SudokuRowTest {
         assertNotEquals(s.hashCode(),board.getRow(1).hashCode());
     }
     @Test
-    public void cloneRowTest() throws CloneNotSupportedException {
+    public void cloneRowTest() {
         SudokuSolver sudokuSolver = new BacktrackingSudokuSolver();
         SudokuBoard sudokuBoard = new SudokuBoard(sudokuSolver);
         sudokuBoard.solveGame();

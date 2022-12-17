@@ -48,8 +48,8 @@ public class SudokuFieldTest {
 
     @Test(expected = NullPointerException.class)
     public void compareToNullPointerTest() {
-        SudokuField sudokuField = new SudokuField();
-        SudokuField sudokuField1 = null;
-        sudokuField.compareTo(sudokuField1);
+            SudokuField sudokuField = new SudokuField();
+            SudokuField sudokuField1 = null;
+            sudokuField.compareTo(sudokuField1);
     }
 }

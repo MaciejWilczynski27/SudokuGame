@@ -51,7 +51,7 @@ public class SudokuBoxTest {
         assertNotEquals(s.hashCode(),board.getBox(1,1).hashCode());
     }
     @Test
-    public void cloneBoxTest() throws CloneNotSupportedException {
+    public void cloneBoxTest() {
         SudokuSolver sudokuSolver = new BacktrackingSudokuSolver();
         SudokuBoard sudokuBoard = new SudokuBoard(sudokuSolver);
         sudokuBoard.solveGame();
