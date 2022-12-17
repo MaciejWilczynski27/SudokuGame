@@ -8,6 +8,6 @@ public interface Dao<T> {
 
       void write(T obj) throws DataCorruptException, GameBuildFailException;
 
-    void saveBoards(T obj1, T obj2)throws GameBuildFailException;
+    void saveBoards(List<T> list)throws GameBuildFailException;
     List<T> loadBoards() throws GameBuildFailException;
 }

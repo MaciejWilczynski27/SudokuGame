@@ -1,0 +1,83 @@
+2022-12-17 01:04:16 INFO  Menu:67 - Wybrano poziom 2
+2022-12-17 01:04:41 INFO  Menu:67 - Wybrano poziom 2
+2022-12-17 01:34:52 INFO  Menu:67 - Wybrano poziom 2
+2022-12-17 18:55:13 INFO  Menu:67 - Wybrano poziom 2
+2022-12-17 20:53:23 INFO  Menu:67 - Wybrano poziom 2
+2022-12-17 20:54:18 INFO  Menu:67 - Wybrano poziom 2
+2022-12-17 20:54:44 INFO  Menu:67 - Wybrano poziom 2
+2022-12-17 20:57:12 INFO  Menu:67 - Wybrano poziom 2
+2022-12-17 21:00:27 INFO  Menu:67 - Wybrano poziom 2
+2022-12-17 22:07:14 INFO  Menu:67 - Wybrano poziom 2
+2022-12-17 22:07:19 ERROR Menu:156 - Blad ladowania gry, sprobuj ponownie.
+org.example.GameBuildFailException: buildGameError
+	at ModelProject@2.0-SNAPSHOT/org.example.FileSudokuBoardDao.loadBoards(FileSudokuBoardDao.java:72)
+	at com.example.javafxview/com.example.javafxview.GameForm.wczytajGre(GameForm.java:183)
+	at com.example.javafxview/com.example.javafxview.Menu.wczytajGre(Menu.java:151)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at com.sun.javafx.reflect.Trampoline.invoke(MethodUtil.java:77)
+	at jdk.internal.reflect.GeneratedMethodAccessor2.invoke(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at javafx.base@19/com.sun.javafx.reflect.MethodUtil.invoke(MethodUtil.java:275)
+	at javafx.fxml@19/com.sun.javafx.fxml.MethodHelper.invoke(MethodHelper.java:84)
+	at javafx.fxml@19/javafx.fxml.FXMLLoader$MethodHandler.invoke(FXMLLoader.java:1854)
+	at javafx.fxml@19/javafx.fxml.FXMLLoader$ControllerMethodEventHandler.handle(FXMLLoader.java:1724)
+	at javafx.base@19/com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:86)
+	at javafx.base@19/com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:234)
+	at javafx.base@19/com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191)
+	at javafx.base@19/com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:59)
+	at javafx.base@19/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at javafx.base@19/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at javafx.base@19/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at javafx.base@19/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at javafx.base@19/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at javafx.base@19/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at javafx.base@19/com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at javafx.base@19/com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:49)
+	at javafx.base@19/javafx.event.Event.fireEvent(Event.java:198)
+	at javafx.graphics@19/javafx.scene.Node.fireEvent(Node.java:8923)
+	at javafx.controls@19/javafx.scene.control.Button.fire(Button.java:203)
+	at javafx.controls@19/com.sun.javafx.scene.control.behavior.ButtonBehavior.mouseReleased(ButtonBehavior.java:207)
+	at javafx.controls@19/com.sun.javafx.scene.control.inputmap.InputMap.handle(InputMap.java:274)
+	at javafx.base@19/com.sun.javafx.event.CompositeEventHandler$NormalEventHandlerRecord.handleBubblingEvent(CompositeEventHandler.java:247)
+	at javafx.base@19/com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:80)
+	at javafx.base@19/com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:234)
+	at javafx.base@19/com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:191)
+	at javafx.base@19/com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:59)
+	at javafx.base@19/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at javafx.base@19/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at javafx.base@19/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at javafx.base@19/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at javafx.base@19/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at javafx.base@19/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at javafx.base@19/com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at javafx.base@19/com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:54)
+	at javafx.base@19/javafx.event.Event.fireEvent(Event.java:198)
+	at javafx.graphics@19/javafx.scene.Scene$MouseHandler.process(Scene.java:3894)
+	at javafx.graphics@19/javafx.scene.Scene.processMouseEvent(Scene.java:1887)
+	at javafx.graphics@19/javafx.scene.Scene$ScenePeerListener.mouseEvent(Scene.java:2620)
+	at javafx.graphics@19/com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:411)
+	at javafx.graphics@19/com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:301)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:399)
+	at javafx.graphics@19/com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleMouseEvent$2(GlassViewEventHandler.java:450)
+	at javafx.graphics@19/com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(QuantumToolkit.java:424)
+	at javafx.graphics@19/com.sun.javafx.tk.quantum.GlassViewEventHandler.handleMouseEvent(GlassViewEventHandler.java:449)
+	at javafx.graphics@19/com.sun.glass.ui.View.handleMouseEvent(View.java:551)
+	at javafx.graphics@19/com.sun.glass.ui.View.notifyMouse(View.java:937)
+	at javafx.graphics@19/com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at javafx.graphics@19/com.sun.glass.ui.win.WinApplication.lambda$runLoop$3(WinApplication.java:184)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+Caused by: java.io.EOFException
+	at java.base/java.io.ObjectInputStream$BlockDataInputStream.peekByte(ObjectInputStream.java:3192)
+	at java.base/java.io.ObjectInputStream.readObject0(ObjectInputStream.java:1693)
+	at java.base/java.io.ObjectInputStream.readObject(ObjectInputStream.java:514)
+	at java.base/java.io.ObjectInputStream.readObject(ObjectInputStream.java:472)
+	at ModelProject@2.0-SNAPSHOT/org.example.FileSudokuBoardDao.loadBoards(FileSudokuBoardDao.java:68)
+	... 59 more
+2022-12-17 22:08:26 INFO  Menu:67 - Wybrano poziom 2
+2022-12-17 22:15:47 INFO  Menu:72 - Wybrano poziom 3
+2022-12-17 22:18:04 INFO  Menu:67 - Wybrano poziom 2
+2022-12-17 22:19:18 INFO  Menu:72 - Wybrano poziom 3
