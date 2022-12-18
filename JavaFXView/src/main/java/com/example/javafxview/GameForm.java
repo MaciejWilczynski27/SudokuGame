@@ -200,6 +200,7 @@ public class GameForm implements Initializable {
                             && playerBoard.getBoard(y, x).getFieldValue() < 10) {
                         textArea = new TextArea(String.valueOf(playerBoard.getBoard(y, x).getFieldValue()));
                         textArea.setFont(Font.font(14));
+                        textArea.setStyle("-fx-background-color: red");
                         obszarSudoku.add(textArea, x, y);
                     } else {
                         TextArea textArea1 = new TextArea();
