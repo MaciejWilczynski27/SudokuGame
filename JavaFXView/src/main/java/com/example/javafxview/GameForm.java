@@ -87,6 +87,7 @@ public class GameForm implements Initializable {
                     TextArea tmp = (TextArea) getNodeByRowColumnIndex(i, j, obszarSudoku);
 
                     if (tmp.getText() != "" && tmp.getText().chars().allMatch(Character::isDigit)
+                            && tmp.getText().length()<=1
                             && Integer.valueOf(tmp.getText()) >= 1
                             && Integer.valueOf(tmp.getText()) <= 9) {
                         playerBoard.setBoard(i, j, Integer.valueOf(tmp.getText()));
@@ -117,6 +118,7 @@ public class GameForm implements Initializable {
             for (int j = 0;j < 9;j++) {
                 TextArea tmp = (TextArea) getNodeByRowColumnIndex(i,j,obszarSudoku);
                 if (tmp.getText() != "" && tmp.getText().chars().allMatch(Character::isDigit)
+                        && tmp.getText().length()<=1
                         && Integer.valueOf(tmp.getText()) >= 1
                         && Integer.valueOf(tmp.getText()) <= 9) {
                     playerBoard.setBoard(i, j, Integer.valueOf(tmp.getText()));
