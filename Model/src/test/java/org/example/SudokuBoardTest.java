@@ -209,6 +209,7 @@ class SudokuBoardTest {
         SudokuBoard sudokuBoardCopy = (SudokuBoard) sudokuBoard.clone();
         assertTrue(sudokuBoard.equals(sudokuBoardCopy));
         sudokuBoard.solveGame();
+        sudokuBoardCopy.setBoard(0,0,0);
         assertFalse(sudokuBoard.equals(sudokuBoardCopy));
         }
     }

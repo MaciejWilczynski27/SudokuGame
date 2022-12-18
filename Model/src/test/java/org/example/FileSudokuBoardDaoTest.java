@@ -2,6 +2,7 @@ package org.example;
 
 import org.junit.Test;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,19 +37,13 @@ public class FileSudokuBoardDaoTest {
     @Test(expected = GameBuildFailException.class)
     public void writeGBFExceptionTest() throws GameBuildFailException{
         try {
-            try {
                 fileSudokuBoardDao = factory.getFileDao("?");
                 fileSudokuBoardDao.write(sudokuBoard);
-            } catch (DataCorruptException e) {
-                throw new DataCorruptException("dataCorrupt", e);
-            }
         } catch (GameBuildFailException | DataCorruptException e) {
                 throw new GameBuildFailException("writeTest",e);
         }
     }
-
-
-    @Test
+        @Test
     public void getFileDaoTest() {
         SudokuBoardDaoFactory factory = new SudokuBoardDaoFactory();
         assertNotNull(factory.getFileDao("getFileDaoTest"));
