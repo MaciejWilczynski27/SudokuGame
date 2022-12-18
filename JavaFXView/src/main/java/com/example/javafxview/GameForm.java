@@ -2,6 +2,8 @@ package com.example.javafxview;
 
 import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -86,7 +88,10 @@ public class GameForm implements Initializable {
                     }
                 }
             }
-          fileSudokuBoardDao.saveBoards(playerBoard,playerBoardClone);
+            List<SudokuBoard> sudokuBoardList = new ArrayList<>();
+            sudokuBoardList.add(playerBoard);
+            sudokuBoardList.add(playerBoardClone);
+          fileSudokuBoardDao.saveBoards(sudokuBoardList);
         } catch (CantSaveException e) {
             logger.error(resourceBundle.getString("cantSave"));
             throw new CantSaveException(resourceBundle.getString("cantSave"));
@@ -185,7 +190,9 @@ public class GameForm implements Initializable {
                         textArea.setFont(Font.font(14));
                         obszarSudoku.add(textArea, x, y);
 
-                    } else if(playerBoardClone.getBoard(y,x).getFieldValue() ==0 && playerBoard.getBoard(y,x).getFieldValue() != 0) {
+                    } else if(playerBoardClone.getBoard(y,x).getFieldValue() ==0 && playerBoard.getBoard(y,x).getFieldValue() != 0 &&
+                    playerBoard.getBoard(y, x).getFieldValue() > 0 &&
+                            playerBoard.getBoard(y, x).getFieldValue() < 10) {
                         textArea = new TextArea(String.valueOf(playerBoard.getBoard(y, x).getFieldValue()));
                         textArea.setFont(Font.font(14));
                         obszarSudoku.add(textArea, x, y);

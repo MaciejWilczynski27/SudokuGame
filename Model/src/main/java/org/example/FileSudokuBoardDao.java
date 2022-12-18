@@ -60,12 +60,11 @@ public class FileSudokuBoardDao implements Dao<SudokuBoard>, AutoCloseable {
         List<SudokuBoard> list= new ArrayList<>();
         try (FileInputStream fileInputStream= new FileInputStream(this.filename);
              ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)){
-            try {
                 while (true) {
                     list.add((SudokuBoard) objectInputStream.readObject());
                 }
-            } catch (EOFException e) {
-            }
+        } catch (EOFException g) {
+
         } catch (IOException | ClassNotFoundException e) {
             throw new GameBuildFailException("buildGameError", e);
         }
