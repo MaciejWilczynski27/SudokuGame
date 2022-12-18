@@ -50,7 +50,7 @@ public class GameForm implements Initializable {
 
         level.removeFields(playerBoard);
         playerBoardClone = (SudokuBoard) playerBoard.clone();
-        TextArea textArea = new TextArea();
+        TextArea textArea;
         for (int x = 0; x < 9; x++) {
             for (int y = 0; y < 9; y++) {
                 if (playerBoard.getBoard(y, x).getFieldValue()
@@ -185,7 +185,7 @@ public class GameForm implements Initializable {
             playerBoard = fileSudokuBoardDao.loadBoards().get(0);
             playerBoardClone = fileSudokuBoardDao.loadBoards().get(1);
 
-            TextArea textArea = new TextArea();
+            TextArea textArea;
             for (int x = 0; x < 9; x++) {
                 for (int y = 0; y < 9; y++) {
                     if (playerBoardClone.getBoard(y, x).getFieldValue() != 0) {
