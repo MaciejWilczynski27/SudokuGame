@@ -19,7 +19,7 @@ public class FileSudokuBoardDaoTest {
 
 
     @Test
-    public void writeReadTest() throws DataCorruptException, GameBuildFailException {
+    public void writeReadTest() throws ProblemWithFileException {
         sudokuBoard.solveGame();
         fileSudokuBoardDao = factory.getFileDao("writeReadTest");
         fileSudokuBoardDao.write(sudokuBoard);
@@ -28,29 +28,29 @@ public class FileSudokuBoardDaoTest {
 
     }
 
-    @Test(expected = GameBuildFailException.class)
-    public void readGBFExceptionTest() throws DataCorruptException, GameBuildFailException {
+    @Test(expected = ProblemWithFileException.class)
+    public void readGBFExceptionTest() throws ProblemWithFileException {
         fileSudokuBoardDao = factory.getFileDao("readGBFExceptionTest");
         fileSudokuBoardDao.read();
     }
 
-    @Test(expected = GameBuildFailException.class)
-    public void writeGBFExceptionTest() throws GameBuildFailException{
+    @Test(expected = ProblemWithFileException.class)
+    public void writeGBFExceptionTest() throws ProblemWithFileException{
         try {
                 fileSudokuBoardDao = factory.getFileDao("?");
                 fileSudokuBoardDao.write(sudokuBoard);
-        } catch (GameBuildFailException | DataCorruptException e) {
-                throw new GameBuildFailException("writeTest",e);
+        } catch (ProblemWithFileException e) {
+                throw new ProblemWithFileException("writeTest",e);
         }
     }
-        @Test
+    @Test
     public void getFileDaoTest() {
         SudokuBoardDaoFactory factory = new SudokuBoardDaoFactory();
         assertNotNull(factory.getFileDao("getFileDaoTest"));
     }
 
     @Test
-    public void saveLoadBoardTest() throws GameBuildFailException {
+    public void saveLoadBoardTest() throws ProblemWithFileException {
             sudokuBoard.solveGame();
             sudokuBoardSecond = (SudokuBoard) sudokuBoard.clone();
             List<SudokuBoard> sudokuBoardList = new ArrayList<>();
@@ -69,12 +69,12 @@ public class FileSudokuBoardDaoTest {
                 fileSudokuBoardDao.saveBoards(sudokuBoardList2);
                 List<SudokuBoard> list2 = fileSudokuBoardDao.loadBoards();
                 assertFalse(list2.get(0).equals(list2.get(1)));
-            } catch (GameBuildFailException e) {
-                throw new GameBuildFailException("exception thrown correctly",e);
+            } catch (ProblemWithFileException e) {
+                throw new ProblemWithFileException("exception thrown correctly",e);
             }
         }
-        @Test(expected = GameBuildFailException.class)
-        public void saveBoardsGBFETest() throws GameBuildFailException{
+        @Test(expected = ProblemWithFileException.class)
+        public void saveBoardsGBFETest() throws ProblemWithFileException{
             try {
                 fileSudokuBoardDao = factory.getFileDao("?");
                 sudokuBoard.solveGame();
@@ -83,19 +83,19 @@ public class FileSudokuBoardDaoTest {
                 sudokuBoardList.add(sudokuBoard);
                 sudokuBoardList.add(sudokuBoardSecond);
                 fileSudokuBoardDao.saveBoards(sudokuBoardList);
-            } catch (GameBuildFailException e) {
-                throw new GameBuildFailException("exception thrown correctly",e);
+            } catch (ProblemWithFileException e) {
+                throw new ProblemWithFileException("exception thrown correctly",e);
 
             }
         }
 
-    @Test(expected = GameBuildFailException.class)
-    public void loadBoardsGBFETest() throws GameBuildFailException{
+    @Test(expected = ProblemWithFileException.class)
+    public void loadBoardsGBFETest() throws ProblemWithFileException{
         try {
             fileSudokuBoardDao = factory.getFileDao("?");
             fileSudokuBoardDao.loadBoards();
-        } catch (GameBuildFailException e) {
-            throw new GameBuildFailException("exception thrown correctly",e);
+        } catch (ProblemWithFileException e) {
+            throw new ProblemWithFileException("exception thrown correctly",e);
         }
     }
     }

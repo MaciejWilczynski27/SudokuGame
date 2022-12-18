@@ -100,9 +100,9 @@ public class GameForm implements Initializable {
             sudokuBoardList.add(playerBoard);
             sudokuBoardList.add(playerBoardClone);
           fileSudokuBoardDao.saveBoards(sudokuBoardList);
-        } catch (CantSaveException e) {
+        } catch (ProblemWithFileException e) {
             logger.error(resourceBundle.getString("cantSave"));
-            throw new CantSaveException(resourceBundle.getString("cantSave"));
+            throw new GameBuildFailException(resourceBundle.getString("cantSave"),e);
         }
     }
 
@@ -185,10 +185,14 @@ public class GameForm implements Initializable {
             throw new MissingSaveException(resourceBundle.getString("lackOfSaveFile"));
         } else {
             fileSudokuBoardDao = factory.getFileDao("save");
-
+            try {
             playerBoard = null;
             playerBoard = fileSudokuBoardDao.loadBoards().get(0);
             playerBoardClone = fileSudokuBoardDao.loadBoards().get(1);
+
+            } catch (ProblemWithFileException e) {
+                throw new GameBuildFailException(resourceBundle.getString("cantSave"),e);
+            }
 
             TextArea textArea;
             for (int x = 0; x < 9; x++) {
