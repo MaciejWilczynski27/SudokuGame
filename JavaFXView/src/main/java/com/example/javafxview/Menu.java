@@ -12,7 +12,6 @@ import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.apache.log4j.Logger;
-import org.example.DataCorruptException;
 import org.example.GameBuildFailException;
 import org.example.MissingSaveException;
 
@@ -132,7 +131,7 @@ public class Menu implements Initializable {
 
     }
 
-    public void wczytajGre() throws GameBuildFailException, MissingSaveException, DataCorruptException {
+    public void wczytajGre() throws GameBuildFailException, MissingSaveException {
         Stage stage = new Stage();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("GameForm.fxml"));
         try {
@@ -141,8 +140,7 @@ public class Menu implements Initializable {
             stage.setTitle(getResourceBundle().getString("Game"));
             stage.setScene(scene);
             gameForm = loader.getController();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             logger.error(resourceBundle.getString("loadGameError"));
             throw new GameBuildFailException(resourceBundle.getString("loadGameError"),e);
         }

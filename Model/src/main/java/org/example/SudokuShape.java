@@ -88,7 +88,7 @@ public class SudokuShape implements Serializable,Cloneable {
                 this.fields.set(i, new SudokuField(shape.fields.get(i)));
             }
             return shape;
-        } catch(CloneNotSupportedException e) {
+        } catch (CloneNotSupportedException e) {
             try {
                 throw new DataCorruptException("dataError",e);
             } catch (DataCorruptException ex) {

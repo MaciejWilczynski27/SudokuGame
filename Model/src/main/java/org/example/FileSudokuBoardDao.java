@@ -1,6 +1,11 @@
 package org.example;
 
-import java.io.*;
+import java.io.EOFException;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,23 +53,24 @@ public class FileSudokuBoardDao implements Dao<SudokuBoard>, AutoCloseable {
     @Override
     public void saveBoards(List<SudokuBoard> list) throws GameBuildFailException {
         try (FileOutputStream fileOutputStream = new FileOutputStream(this.filename);
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)){
-            for (int i = 0; i< list.size();i++) {
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
+            for (int i = 0; i < list.size();i++) {
                 objectOutputStream.writeObject(list.get(i));
             }
         } catch (IOException e) {
             throw new GameBuildFailException("buildGameError", e);
         }
     }
-    public List<SudokuBoard> loadBoards() throws GameBuildFailException{
-        List<SudokuBoard> list= new ArrayList<>();
-        try (FileInputStream fileInputStream= new FileInputStream(this.filename);
-             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)){
+
+    public List<SudokuBoard> loadBoards() throws GameBuildFailException {
+        List<SudokuBoard> list = new ArrayList<>();
+        try (FileInputStream fileInputStream = new FileInputStream(this.filename);
+             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
                 while (true) {
                     list.add((SudokuBoard) objectInputStream.readObject());
                 }
         } catch (EOFException g) {
-
+            g.printStackTrace();
         } catch (IOException | ClassNotFoundException e) {
             throw new GameBuildFailException("buildGameError", e);
         }

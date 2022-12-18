@@ -10,12 +10,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.layout.*;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.scene.control.TextArea;
 import org.apache.log4j.Logger;
 import org.example.*;
+
 
 
 public class GameForm implements Initializable {
@@ -52,7 +53,8 @@ public class GameForm implements Initializable {
         TextArea textArea = new TextArea();
         for (int x = 0; x < 9; x++) {
             for (int y = 0; y < 9; y++) {
-                if (playerBoard.getBoard(y, x).getFieldValue() != 0) {
+                if (playerBoard.getBoard(y, x).getFieldValue()
+                        != 0) {
                     textArea = new TextArea(String.valueOf(playerBoard.getBoard(y, x).getFieldValue()));
                     textArea.setEditable(false);
                     textArea.setFont(Font.font(14));
@@ -60,8 +62,10 @@ public class GameForm implements Initializable {
 
                 } else {
                     TextArea textArea1 = new TextArea();
-                    textArea.setFont(Font.font(14));
+                    textArea1.setFont(Font.font(14));
+                    textArea1.setStyle("-fx-background-color: red");
                     obszarSudoku.add(textArea1, x, y);
+
                 }
             }
         }
@@ -81,7 +85,9 @@ public class GameForm implements Initializable {
                 for (int j = 0; j < 9; j++) {
                     TextArea tmp = (TextArea) getNodeByRowColumnIndex(i, j, obszarSudoku);
 
-                    if (tmp.getText() != "" && tmp.getText().chars().allMatch(Character::isDigit)) {
+                    if (tmp.getText() != "" && tmp.getText().chars().allMatch(Character::isDigit)
+                            && Integer.valueOf(tmp.getText()) >= 1
+                            && Integer.valueOf(tmp.getText()) <= 9) {
                         playerBoard.setBoard(i, j, Integer.valueOf(tmp.getText()));
                     } else {
                         playerBoard.setBoard(i, j, 0);
@@ -111,8 +117,7 @@ public class GameForm implements Initializable {
                 TextArea tmp = (TextArea) getNodeByRowColumnIndex(i,j,obszarSudoku);
                 if (tmp.getText() != "" && tmp.getText().chars().allMatch(Character::isDigit)) {
                     playerBoard.setBoard(i, j, Integer.valueOf(tmp.getText()));
-                   }
-                else {
+                   } else {
                     playerBoard.setBoard(i, j, 0);
                     zeroFlag = true;
                 }
@@ -137,7 +142,7 @@ public class GameForm implements Initializable {
         }
         for (int x = 0;x < 9;x++) {
             rw = playerBoard.getRow(x);
-            if(!rw.verify()) {
+            if (!rw.verify()) {
                 rwFlag = false;
                 break;
             }
@@ -147,8 +152,7 @@ public class GameForm implements Initializable {
         } else if (boxFlag && rwFlag && clFlag) {
 
             twynik.setText(resourceBundle.getString("correctYouWon"));
-        }
-        else {
+        } else {
             twynik.setText(resourceBundle.getString("boardErrors"));
         }
     }
@@ -167,7 +171,7 @@ public class GameForm implements Initializable {
         return result;
     }
 
-    public void wczytajGre() throws DataCorruptException, MissingSaveException, GameBuildFailException {
+    public void wczytajGre() throws MissingSaveException, GameBuildFailException {
 
         SudokuBoardDaoFactory factory = new SudokuBoardDaoFactory();
         Dao<SudokuBoard> fileSudokuBoardDao;
@@ -190,15 +194,17 @@ public class GameForm implements Initializable {
                         textArea.setFont(Font.font(14));
                         obszarSudoku.add(textArea, x, y);
 
-                    } else if(playerBoardClone.getBoard(y,x).getFieldValue() ==0 && playerBoard.getBoard(y,x).getFieldValue() != 0 &&
-                    playerBoard.getBoard(y, x).getFieldValue() > 0 &&
-                            playerBoard.getBoard(y, x).getFieldValue() < 10) {
+                    } else if (playerBoardClone.getBoard(y,x).getFieldValue() == 0
+                            && playerBoard.getBoard(y,x).getFieldValue() != 0
+                            && playerBoard.getBoard(y, x).getFieldValue() > 0
+                            && playerBoard.getBoard(y, x).getFieldValue() < 10) {
                         textArea = new TextArea(String.valueOf(playerBoard.getBoard(y, x).getFieldValue()));
                         textArea.setFont(Font.font(14));
                         obszarSudoku.add(textArea, x, y);
                     } else {
                         TextArea textArea1 = new TextArea();
-                        textArea.setFont(Font.font(14));
+                        textArea1.setFont(Font.font(14));
+                        textArea1.setStyle("-fx-background-color: red");
                         obszarSudoku.add(textArea1, x, y);
                     }
                 }

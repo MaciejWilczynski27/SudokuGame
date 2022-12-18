@@ -32,19 +32,16 @@ public class FileSudokuBoardDaoTest {
         fileSudokuBoardDao = factory.getFileDao("readGBFExceptionTest");
         fileSudokuBoardDao.read();
     }
-//    @Test(expected = DataCorruptException.class)
-//    public void readDCExceptionTest() throws DataCorruptException, GameBuildFailException {
-//        fileSudokuBoardDao = factory.getFileDao("readDCExceptionTest");
-//
-//
-//        fileSudokuBoardDao.read();
-//    }
 
     @Test(expected = GameBuildFailException.class)
     public void writeGBFExceptionTest() throws GameBuildFailException{
         try {
-            fileSudokuBoardDao = factory.getFileDao("?");
-            fileSudokuBoardDao.write(sudokuBoard);
+            try {
+                fileSudokuBoardDao = factory.getFileDao("?");
+                fileSudokuBoardDao.write(sudokuBoard);
+            } catch (DataCorruptException e) {
+                throw new DataCorruptException("dataCorrupt", e);
+            }
         } catch (GameBuildFailException | DataCorruptException e) {
                 throw new GameBuildFailException("writeTest",e);
         }
@@ -64,18 +61,22 @@ public class FileSudokuBoardDaoTest {
             List<SudokuBoard> sudokuBoardList = new ArrayList<>();
             sudokuBoardList.add(sudokuBoard);
             sudokuBoardList.add(sudokuBoardSecond);
-            fileSudokuBoardDao = factory.getFileDao("writeReadTest");
-            fileSudokuBoardDao.saveBoards(sudokuBoardList);
-            List<SudokuBoard> list = fileSudokuBoardDao.loadBoards();
-            assertTrue(list.get(0).equals(list.get(1)));
-            sudokuBoardSecond.setBoard(1,1,0);
-            List<SudokuBoard> sudokuBoardList2 = new ArrayList<>();
-            sudokuBoardList2.add(sudokuBoard);
-            sudokuBoardList2.add(sudokuBoardSecond);
-            fileSudokuBoardDao = factory.getFileDao("writeReadTest");
-            fileSudokuBoardDao.saveBoards(sudokuBoardList2);
-            List<SudokuBoard> list2= fileSudokuBoardDao.loadBoards();
-            assertFalse(list2.get(0).equals(list2.get(1)));
+            try {
+                fileSudokuBoardDao = factory.getFileDao("writeReadTest");
+                fileSudokuBoardDao.saveBoards(sudokuBoardList);
+                List<SudokuBoard> list = fileSudokuBoardDao.loadBoards();
+                assertTrue(list.get(0).equals(list.get(1)));
+                sudokuBoardSecond.setBoard(1, 1, 0);
+                List<SudokuBoard> sudokuBoardList2 = new ArrayList<>();
+                sudokuBoardList2.add(sudokuBoard);
+                sudokuBoardList2.add(sudokuBoardSecond);
+                fileSudokuBoardDao = factory.getFileDao("writeReadTest");
+                fileSudokuBoardDao.saveBoards(sudokuBoardList2);
+                List<SudokuBoard> list2 = fileSudokuBoardDao.loadBoards();
+                assertFalse(list2.get(0).equals(list2.get(1)));
+            } catch (GameBuildFailException e) {
+                throw new GameBuildFailException("exception thrown correctly",e);
+            }
         }
         @Test(expected = GameBuildFailException.class)
         public void saveBoardsGBFETest() throws GameBuildFailException{
