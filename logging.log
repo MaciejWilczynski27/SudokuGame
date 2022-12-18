@@ -1,4 +1,4 @@
-2022-12-17 01:04:16 INFO  Menu:67 - Wybrano poziom 2
+    2022-12-17 01:04:16 INFO  Menu:67 - Wybrano poziom 2
 2022-12-17 01:04:41 INFO  Menu:67 - Wybrano poziom 2
 2022-12-17 01:34:52 INFO  Menu:67 - Wybrano poziom 2
 2022-12-17 18:55:13 INFO  Menu:67 - Wybrano poziom 2
@@ -95,3 +95,7 @@ Caused by: java.io.EOFException
 2022-12-18 13:46:45 INFO  Menu:61 - Wybrano poziom 1
 2022-12-18 16:54:04 INFO  Menu:66 - Wybrano poziom 2
 2022-12-18 16:55:24 INFO  Menu:71 - Wybrano poziom 3
+2022-12-18 18:30:46 INFO  Menu:71 - Wybrano poziom 3
+2022-12-18 18:51:13 INFO  Menu:66 - Wybrano poziom 2
+2022-12-18 18:58:01 INFO  Menu:66 - Wybrano poziom 2
+2022-12-18 19:16:44 INFO  Menu:71 - Wybrano poziom 3

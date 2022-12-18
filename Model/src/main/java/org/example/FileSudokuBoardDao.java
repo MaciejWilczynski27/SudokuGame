@@ -59,6 +59,7 @@ public class FileSudokuBoardDao implements Dao<SudokuBoard>, AutoCloseable {
         }
     }
 
+    @Override
     public List<SudokuBoard> loadBoards() throws GameBuildFailException {
         List<SudokuBoard> list = new ArrayList<>();
         try (FileInputStream fileInputStream = new FileInputStream(this.filename);
@@ -68,7 +69,6 @@ public class FileSudokuBoardDao implements Dao<SudokuBoard>, AutoCloseable {
                 }
         } catch (EOFException g) {
             g.hashCode();
-
         } catch (IOException | ClassNotFoundException e) {
             throw new GameBuildFailException("buildGameError", e);
         }

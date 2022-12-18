@@ -11,6 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -115,7 +116,9 @@ public class GameForm implements Initializable {
         for (int i = 0;i < 9;i++) {
             for (int j = 0;j < 9;j++) {
                 TextArea tmp = (TextArea) getNodeByRowColumnIndex(i,j,obszarSudoku);
-                if (tmp.getText() != "" && tmp.getText().chars().allMatch(Character::isDigit)) {
+                if (tmp.getText() != "" && tmp.getText().chars().allMatch(Character::isDigit)
+                        && Integer.valueOf(tmp.getText()) >= 1
+                        && Integer.valueOf(tmp.getText()) <= 9) {
                     playerBoard.setBoard(i, j, Integer.valueOf(tmp.getText()));
                    } else {
                     playerBoard.setBoard(i, j, 0);
