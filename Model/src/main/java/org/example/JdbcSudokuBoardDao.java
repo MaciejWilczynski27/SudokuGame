@@ -22,7 +22,7 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
 
     public static Connection connect() {
         try {
-            con = DriverManager.getConnection("jdbc:sqlite:C:/Users/Marcin/IdeaProjects/mka_pn_1200_04/connect");
+            con = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\Marcin\\IdeaProjects\\mka_pn_1200_04\\connect");
             con.setAutoCommit(false);
             DatabaseMetaData meta = con.getMetaData();
 
