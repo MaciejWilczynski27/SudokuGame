@@ -184,13 +184,13 @@ public class GameForm implements Initializable {
         TextArea textArea;
         for (int x = 0; x < 9; x++) {
             for (int y = 0; y < 9; y++) {
-                if (playerBoardClone.getBoard(y, x).getFieldValue() != 0) {
+                if (playerBoard.getBoard(y, x).getFieldValue() != 0) {
                     textArea = new TextArea(String.valueOf(playerBoard.getBoard(y, x).getFieldValue()));
                     textArea.setEditable(false);
                     textArea.setFont(Font.font(14));
                     obszarSudoku.add(textArea, x, y);
 
-                } else if (playerBoardClone.getBoard(y,x).getFieldValue() == 0
+                } else if (playerBoard.getBoard(y,x).getFieldValue() == 0
                         && playerBoard.getBoard(y,x).getFieldValue() != 0
                         && playerBoard.getBoard(y, x).getFieldValue() > 0
                         && playerBoard.getBoard(y, x).getFieldValue() < 10) {
@@ -264,6 +264,20 @@ public class GameForm implements Initializable {
     }
 
     public void zapiszGreDB() throws ProblemWithFileException {
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                TextArea tmp = (TextArea) getNodeByRowColumnIndex(i, j, obszarSudoku);
+
+                if (tmp.getText() != "" && tmp.getText().chars().allMatch(Character::isDigit)
+                        && tmp.getText().length() <= 1
+                        && Integer.valueOf(tmp.getText()) >= 1
+                        && Integer.valueOf(tmp.getText()) <= 9) {
+                    playerBoard.setBoard(i, j, Integer.valueOf(tmp.getText()));
+                } else {
+                    playerBoard.setBoard(i, j, 0);
+                }
+            }
+        }
         SudokuBoardDaoFactory factory = new SudokuBoardDaoFactory();
         Dao<SudokuBoard> jdbc = factory.getDatabaseDao("save.dtf");
         jdbc.write(playerBoard);

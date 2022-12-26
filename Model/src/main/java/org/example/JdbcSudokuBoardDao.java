@@ -113,7 +113,7 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
         }
 
         // save index
-        String sql1 = "INSERT INTO sudokuIndex(name) VALUES(?)";
+        String sql1 = "INSERT OR REPLACE INTO sudokuIndex(name) VALUES(?)";
         try (PreparedStatement prstmt = con.prepareStatement(sql1)) {
             prstmt.setString(1,filename);
             prstmt.executeUpdate();
@@ -140,7 +140,7 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
             }
         }
 
-        String sql3 = "INSERT INTO sudokuContent(boardId,xpos,ypos,content) VALUES(?,?,?,?)";
+        String sql3 = "INSERT OR REPLACE INTO sudokuContent(boardId,xpos,ypos,content) VALUES(?,?,?,?)";
         try (PreparedStatement prstmt = con.prepareStatement(sql3)) {
 
             for (int i = 0; i < 9; i++) {

@@ -134,3 +134,11 @@ Caused by: java.io.EOFException
 2022-12-26 19:03:18 INFO  Menu:67 - Wybrano poziom 1
 2022-12-26 19:10:36 INFO  Menu:64 - Wybrano poziom 1
 2022-12-26 19:12:52 INFO  Menu:64 - Wybrano poziom 1
+2022-12-26 19:15:25 INFO  Menu:69 - Wybrano poziom 2
+2022-12-26 19:16:59 INFO  Menu:74 - Wybrano poziom 3
+2022-12-26 19:18:03 INFO  Menu:64 - Wybrano poziom 1
+2022-12-26 19:18:17 INFO  Menu:69 - Wybrano poziom 2
+2022-12-26 19:29:30 INFO  Menu:74 - Wybrano poziom 3
+2022-12-26 19:30:07 INFO  Menu:69 - Wybrano poziom 2
+2022-12-26 19:35:40 INFO  Menu:69 - Wybrano poziom 2
+2022-12-26 19:37:34 INFO  Menu:64 - Wybrano poziom 1
