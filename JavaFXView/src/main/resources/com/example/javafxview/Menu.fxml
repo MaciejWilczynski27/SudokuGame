@@ -11,7 +11,8 @@
             <Button fx:id="bpoziom1" layoutX="67.0" layoutY="15.0" mnemonicParsing="false" onAction="#setPoziom1" text="Poziom 1" />
             <Button fx:id="bpoziom2" layoutX="67.0" layoutY="55.0" mnemonicParsing="false" onAction="#setPoziom2" text="Poziom 2" />
             <Button fx:id="bpoziom3" layoutX="67.0" layoutY="95.0" mnemonicParsing="false" onAction="#setPoziom3" text="Poziom 3" />
-            <Button fx:id="bwczytaj" layoutX="61.5" layoutY="135.0" mnemonicParsing="false" onAction="#wczytajGre" text="Wczytaj grę" />
+            <Button fx:id="bwczytaj" layoutX="61.5" layoutY="135.0" mnemonicParsing="false" onAction="#wczytajGre" text="Wczytaj grę z pliku" />
+            <Button fx:id="bwczytajdb" layoutX="41.5" layoutY="175.0" mnemonicParsing="false" onAction="#wczytajDB" text="Wczytaj grę z bazy" />
          </children>
       </AnchorPane>
       <Button fx:id="eng" layoutX="34.0" layoutY="338.0" mnemonicParsing="false" onAction="#setEnglish" text="EN" />

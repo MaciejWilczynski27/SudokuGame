@@ -49,6 +49,11 @@
                         <artifactId>checkstyle</artifactId>
                         <version>8.42</version>
                     </dependency>
+                    <dependency>
+                        <groupId>com.microsoft.sqlserver</groupId>
+                        <artifactId>mssql-jdbc</artifactId>
+                        <version>12.1.0.jre11-preview</version>
+                    </dependency>
                 </dependencies>
             </plugin>
             <plugin>
