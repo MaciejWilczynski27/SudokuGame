@@ -50,10 +50,10 @@
                         <version>8.42</version>
                     </dependency>
                     <dependency>
-                        <groupId>com.microsoft.sqlserver</groupId>
-                        <artifactId>mssql-jdbc</artifactId>
-                        <version>12.1.0.jre11-preview</version>
-                    </dependency>
+                    <groupId>org.xerial</groupId>
+                    <artifactId>sqlite-jdbc</artifactId>
+                    <version>3.36.0.3</version>
+                </dependency>
                 </dependencies>
             </plugin>
             <plugin>

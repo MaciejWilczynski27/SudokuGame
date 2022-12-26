@@ -11,7 +11,7 @@ import java.util.List;
 
 
 public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
-    private String filename;
+    private static String filename;
     int currentid = 0;
     private static Connection con;
 
@@ -22,12 +22,13 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
 
     public static Connection connect() {
         try {
-            con = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\Marcin\\IdeaProjects\\mka_pn_1200_04\\connect");
+            String url = "jdbc:sqlite:C:\\Users\\Marcin\\IdeaProjects\\mka_pn_1200_04\\connect\\" + filename;
+            con = DriverManager.getConnection(url);
             con.setAutoCommit(false);
             DatabaseMetaData meta = con.getMetaData();
 
         } catch (SQLException e) {
-
+            e.printStackTrace();
         }
         return con;
     }
@@ -47,14 +48,14 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
             rs  = pstmt.executeQuery();
             currentid = rs.getInt(1);
         } catch (SQLException e) {
-
+            e.printStackTrace();
         } finally {
             try {
                 if (rs != null) {
                     rs.close();
                 }
             } catch (SQLException ex) {
-
+                ex.printStackTrace();
             }
         }
         String sql2 = String.format("SELECT xpos,ypos,content "
@@ -68,12 +69,12 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
                 rs.next();
             }
         } catch (SQLException e) {
-
+            e.printStackTrace();
         } finally {
             try {
                 rs.close();
             } catch (SQLException e) {
-
+                e.printStackTrace();
             }
         }
         return sudokuBoard;
@@ -81,7 +82,6 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
 
     @Override
     public void write(SudokuBoard obj)  {
-        // prepare table
         String table1 = "CREATE TABLE IF NOT EXISTS sudokuIndex (\n"
                 + "\tname text NOT NULL UNIQUE\n"
                 +
@@ -97,6 +97,7 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
                 + "            ON DELETE CASCADE\n"
                 + "            ON UPDATE NO ACTION\n"
                 + ");";
+
         try (Statement stmt = con.createStatement()) {
             stmt.execute(table1);
             con.commit();
@@ -106,7 +107,7 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
             try {
                 con.rollback();
             } catch (SQLException ex) {
-
+                ex.printStackTrace();
             }
 
         }
@@ -119,7 +120,7 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
             //wrzucone wszystko + try w środu fora
 
         } catch (SQLException e) {
-
+            e.printStackTrace();
         }
         //find index
         ResultSet rs = null;
@@ -130,12 +131,12 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
             rs  = pstmt.executeQuery();
             currentid = rs.getInt(1);
         } catch (SQLException e) {
-
+            e.printStackTrace();
         } finally {
             try {
                 rs.close();
             } catch (SQLException e) {
-
+                e.printStackTrace();
             }
         }
 
@@ -155,14 +156,14 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
                             con.rollback();
                             con.close();
                         } catch (SQLException ex) {
-
+                            ex.printStackTrace();
                         }
 
                     }
                 }
             }
         } catch (SQLException e) {
-
+            e.printStackTrace();
         }
         // finish write
         try {
@@ -172,7 +173,7 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
             try {
                 con.rollback();
             } catch (SQLException ex) {
-
+                ex.printStackTrace();
             }
 
         }

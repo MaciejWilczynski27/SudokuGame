@@ -6,19 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -185,8 +177,8 @@ public class GameForm implements Initializable {
 
     public void wczytajDB() throws ProblemWithFileException {
         SudokuBoardDaoFactory factory = new SudokuBoardDaoFactory();
-        Dao<SudokuBoard> Jdbc = factory.getDatabaseDao("save.dtf");
-        playerBoard = Jdbc.read();
+        Dao<SudokuBoard> jdbc = factory.getDatabaseDao("save.dtf");
+        playerBoard = jdbc.read();
 
 
         TextArea textArea;
@@ -273,7 +265,7 @@ public class GameForm implements Initializable {
 
     public void zapiszGreDB() throws ProblemWithFileException {
         SudokuBoardDaoFactory factory = new SudokuBoardDaoFactory();
-        Dao<SudokuBoard> Jdbc = factory.getDatabaseDao("save.dtf");
-        Jdbc.write(playerBoard);
+        Dao<SudokuBoard> jdbc = factory.getDatabaseDao("save.dtf");
+        jdbc.write(playerBoard);
     }
 }
