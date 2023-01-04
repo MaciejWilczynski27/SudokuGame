@@ -19,14 +19,11 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
             con = connect();
     }
 
-    public Connection getConnection() {
-        return con;
-    }
 
     public static Connection connect() {
         try {
             Class.forName("org.sqlite.JDBC");
-            String url = "jdbc:sqlite:C:\\Users\\Marcin\\IdeaProjects\\mka_pn_1200_04\\connect\\" + filename;
+            String url = "jdbc:sqlite:C:\\Users\\macie\\IdeaProjects\\mka_pn_1200_04\\connect\\" + filename;
             con = DriverManager.getConnection(url);
             con.setAutoCommit(false);
 
@@ -155,7 +152,7 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
                         prstmt.setInt(1, currentid);
                         prstmt.setInt(2, i);
                         prstmt.setInt(3, j);
-                        prstmt.setInt(4, (obj.getBoard(i,j).getFieldValue()));
+                        prstmt.setInt(4, obj.getBoard(i,j).getFieldValue());
                         prstmt.executeUpdate();
                     } catch (SQLException e) {
                         try {

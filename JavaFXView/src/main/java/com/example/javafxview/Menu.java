@@ -77,6 +77,11 @@ public class Menu implements Initializable {
     @FXML
     public void languageChange(String language) {
         setResourceBundle(ResourceBundle.getBundle("bundle_" + language));
+        settingResources();
+
+    }
+
+    private void settingResources() {
         bpoziom1.setText(getResourceBundle().getString("Level") + " 1");
         bpoziom2.setText(getResourceBundle().getString("Level") + " 2");
         bpoziom3.setText(getResourceBundle().getString("Level") + " 3");
@@ -84,7 +89,6 @@ public class Menu implements Initializable {
         langchoose.setText(getResourceBundle().getString("langchoose"));
         aut1.setText(getResourceBundle().getString("author") + " 1: " + auth.getString("author1"));
         aut2.setText(getResourceBundle().getString("author") + " 2: " + auth.getString("author2"));
-
     }
 
     public void setEnglish() {
@@ -161,13 +165,7 @@ public class Menu implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rscBundle) {
-        bpoziom1.setText(getResourceBundle().getString("Level") + " 1");
-        bpoziom2.setText(getResourceBundle().getString("Level") + " 2");
-        bpoziom3.setText(getResourceBundle().getString("Level") + " 3");
-        bwczytaj.setText(getResourceBundle().getString("loadGame"));
-        langchoose.setText(getResourceBundle().getString("langchoose"));
-        aut1.setText(getResourceBundle().getString("author") + " 1: " + auth.getString("author1"));
-        aut2.setText(getResourceBundle().getString("author") + " 2: " + auth.getString("author2"));
+        settingResources();
     }
 
     public void wczytajDB() throws GameBuildFailException, ProblemWithFileException {
