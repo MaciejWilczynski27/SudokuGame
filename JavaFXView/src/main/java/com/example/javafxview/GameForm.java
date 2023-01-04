@@ -177,7 +177,7 @@ public class GameForm implements Initializable {
 
     public void wczytajDB() throws ProblemWithFileException {
         SudokuBoardDaoFactory factory = new SudokuBoardDaoFactory();
-        Dao<SudokuBoard> jdbc = factory.getDatabaseDao("save.dtf");
+        Dao<SudokuBoard> jdbc = factory.getDatabaseDao("saveDB.dtf");
         playerBoard = jdbc.read();
 
 
@@ -279,7 +279,7 @@ public class GameForm implements Initializable {
             }
         }
         SudokuBoardDaoFactory factory = new SudokuBoardDaoFactory();
-        Dao<SudokuBoard> jdbc = factory.getDatabaseDao("save.dtf");
+        Dao<SudokuBoard> jdbc = factory.getDatabaseDao("saveDB.dtf");
         jdbc.write(playerBoard);
     }
 }

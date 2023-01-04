@@ -2,7 +2,7 @@ package org.example;
 
 import java.util.List;
 
-public interface Dao<T> {
+public interface Dao<T> extends AutoCloseable {
 
       T read() throws  ProblemWithFileException;
 

@@ -1,7 +1,6 @@
 package org.example;
 
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,16 +19,23 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
             con = connect();
     }
 
+    public Connection getConnection() {
+        return con;
+    }
+
     public static Connection connect() {
         try {
+            Class.forName("org.sqlite.JDBC");
             String url = "jdbc:sqlite:C:\\Users\\Marcin\\IdeaProjects\\mka_pn_1200_04\\connect\\" + filename;
             con = DriverManager.getConnection(url);
             con.setAutoCommit(false);
-            DatabaseMetaData meta = con.getMetaData();
 
         } catch (SQLException e) {
             e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
+
         return con;
     }
 
@@ -117,7 +123,7 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
         try (PreparedStatement prstmt = con.prepareStatement(sql1)) {
             prstmt.setString(1,filename);
             prstmt.executeUpdate();
-            //wrzucone wszystko + try w środu fora
+
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -165,7 +171,7 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        // finish write
+
         try {
             con.commit();
             rs.close();
@@ -189,4 +195,8 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
         return null;
     }
 
+    @Override
+    public void close() throws Exception {
+
+    }
 }
