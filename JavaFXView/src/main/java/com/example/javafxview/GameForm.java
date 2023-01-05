@@ -81,20 +81,7 @@ public class GameForm implements Initializable {
             if (playerBoard == null) {
                 throw new CantSaveException(resourceBundle.getString("cantSave"));
             }
-            for (int i = 0; i < 9; i++) {
-                for (int j = 0; j < 9; j++) {
-                    TextArea tmp = (TextArea) getNodeByRowColumnIndex(i, j, obszarSudoku);
-
-                    if (tmp.getText() != "" && tmp.getText().chars().allMatch(Character::isDigit)
-                            && tmp.getText().length() <= 1
-                            && Integer.valueOf(tmp.getText()) >= 1
-                            && Integer.valueOf(tmp.getText()) <= 9) {
-                        playerBoard.setBoard(i, j, Integer.valueOf(tmp.getText()));
-                    } else {
-                        playerBoard.setBoard(i, j, 0);
-                    }
-                }
-            }
+            boardSetter(false);
             List<SudokuBoard> sudokuBoardList = new ArrayList<>();
             sudokuBoardList.add(playerBoard);
             sudokuBoardList.add(playerBoardClone);
@@ -105,6 +92,29 @@ public class GameForm implements Initializable {
         }
     }
 
+    private boolean boardSetter(boolean zeroFlagRequired) {
+        boolean zeroFlag = false;
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                TextArea tmp = (TextArea) getNodeByRowColumnIndex(i, j, obszarSudoku);
+
+                if (tmp.getText() != "" && tmp.getText().chars().allMatch(Character::isDigit)
+                        && tmp.getText().length() <= 1
+                        && Integer.valueOf(tmp.getText()) >= 1
+                        && Integer.valueOf(tmp.getText()) <= 9) {
+                    playerBoard.setBoard(i, j, Integer.valueOf(tmp.getText()));
+                } else {
+                    playerBoard.setBoard(i, j, 0);
+                    if (zeroFlagRequired) {
+                        zeroFlag = true;
+                    }
+                }
+            }
+        }
+        return zeroFlag;
+
+    }
+
     public void sprawdzPlansze() {
         SudokuBox box;
         SudokuColumn cl;
@@ -112,21 +122,6 @@ public class GameForm implements Initializable {
         boolean boxFlag = true;
         boolean clFlag = true;
         boolean rwFlag = true;
-        boolean zeroFlag = false;
-        for (int i = 0;i < 9;i++) {
-            for (int j = 0;j < 9;j++) {
-                TextArea tmp = (TextArea) getNodeByRowColumnIndex(i,j,obszarSudoku);
-                if (tmp.getText() != "" && tmp.getText().chars().allMatch(Character::isDigit)
-                        && tmp.getText().length() <= 1
-                        && Integer.valueOf(tmp.getText()) >= 1
-                        && Integer.valueOf(tmp.getText()) <= 9) {
-                    playerBoard.setBoard(i, j, Integer.valueOf(tmp.getText()));
-                   } else {
-                    playerBoard.setBoard(i, j, 0);
-                    zeroFlag = true;
-                }
-            }
-        }
         for (int x = 0; x < 9; x++) {
             for (int y = 0; y < 9; y++) {
                 box = playerBoard.getBox(x, y);
@@ -151,6 +146,7 @@ public class GameForm implements Initializable {
                 break;
             }
         }
+        boolean zeroFlag = boardSetter(true);
         if (boxFlag && rwFlag && clFlag && zeroFlag) {
             twynik.setText(resourceBundle.getString("notFullyCorrect"));
         } else if (boxFlag && rwFlag && clFlag) {
@@ -179,34 +175,14 @@ public class GameForm implements Initializable {
         SudokuBoardDaoFactory factory = new SudokuBoardDaoFactory();
         Dao<SudokuBoard> jdbc = factory.getDatabaseDao("saveDB.dtf");
         playerBoard = jdbc.read();
-        TextArea textArea;
-        for (int x = 0; x < 9; x++) {
-            for (int y = 0; y < 9; y++) {
-                if (playerBoard.getBoard(y, x).getFieldValue() != 0) {
-                    textArea = new TextArea(String.valueOf(playerBoard.getBoard(y, x).getFieldValue()));
-                    textArea.setEditable(false);
-                    textArea.setFont(Font.font(14));
-                    obszarSudoku.add(textArea, x, y);
-
-                } else if (playerBoard.getBoard(y,x).getFieldValue() == 0
-                        && playerBoard.getBoard(y,x).getFieldValue() != 0
-                        && playerBoard.getBoard(y,x).getFieldValue() > 0
-                        && playerBoard.getBoard(y,x).getFieldValue() < 10) {
-                    textArea = new TextArea(String.valueOf(playerBoard.getBoard(y, x).getFieldValue()));
-                    textArea.setFont(Font.font(14));
-                    textArea.setStyle("-fx-background-color: red");
-                    obszarSudoku.add(textArea, x, y);
-                } else {
-                    TextArea textArea1 = new TextArea();
-                    textArea1.setFont(Font.font(14));
-                    textArea1.setStyle("-fx-background-color: red");
-                    obszarSudoku.add(textArea1, x, y);
-                }
-            }
-        }
+        prepareBoardConditions(playerBoard);
     }
 
     public void prepareBoard() {
+        prepareBoardConditions(playerBoardClone);
+    }
+
+    private void prepareBoardConditions(SudokuBoard playerBoardClone) {
         TextArea textArea;
         for (int x = 0; x < 9; x++) {
             for (int y = 0; y < 9; y++) {
@@ -265,20 +241,7 @@ public class GameForm implements Initializable {
     }
 
     public void zapiszGreDB() throws ProblemWithFileException {
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                TextArea tmp = (TextArea) getNodeByRowColumnIndex(i, j, obszarSudoku);
-
-                if (tmp.getText() != "" && tmp.getText().chars().allMatch(Character::isDigit)
-                        && tmp.getText().length() <= 1
-                        && Integer.valueOf(tmp.getText()) >= 1
-                        && Integer.valueOf(tmp.getText()) <= 9) {
-                    playerBoard.setBoard(i, j, Integer.valueOf(tmp.getText()));
-                } else {
-                    playerBoard.setBoard(i, j, 0);
-                }
-            }
-        }
+        boardSetter(false);
         SudokuBoardDaoFactory factory = new SudokuBoardDaoFactory();
         Dao<SudokuBoard> jdbc = factory.getDatabaseDao("saveDB.dtf");
         jdbc.write(playerBoard);

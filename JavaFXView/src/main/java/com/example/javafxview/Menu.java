@@ -54,7 +54,6 @@ public class Menu implements Initializable {
     private Logger logger = Logger.getLogger(Menu.class);
     private String language = "pl_PL";
 
-    private Stage stage = null;
     private Authors auth = new Authors();
 
     static

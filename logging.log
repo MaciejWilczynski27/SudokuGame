@@ -285,3 +285,8 @@ Caused by: java.io.EOFException
 2023-01-05 17:24:23 INFO  Menu:70 - You have chosen level 2
 2023-01-05 17:24:25 INFO  Menu:65 - You have chosen level 1
 2023-01-05 17:24:28 INFO  Menu:75 - You have chosen level 3
+2023-01-05 17:37:33 INFO  Menu:64 - Wybrano poziom 1
+2023-01-05 17:37:44 INFO  Menu:69 - Wybrano poziom 2
+2023-01-05 17:53:41 INFO  Menu:69 - Wybrano poziom 2
+2023-01-05 17:57:42 INFO  Menu:69 - Wybrano poziom 2
+2023-01-05 17:57:54 INFO  Menu:74 - Wybrano poziom 3
