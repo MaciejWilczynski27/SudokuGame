@@ -35,7 +35,7 @@ public class GameForm implements Initializable {
     SudokuBoard board = new SudokuBoard(solver);
     SudokuBoard playerBoard;
     SudokuBoard playerBoardClone;
-    SudokuBoard[] bothSudoku;
+
 
     private Logger logger = Logger.getLogger(GameForm.class);
 
@@ -179,8 +179,6 @@ public class GameForm implements Initializable {
         SudokuBoardDaoFactory factory = new SudokuBoardDaoFactory();
         Dao<SudokuBoard> jdbc = factory.getDatabaseDao("saveDB.dtf");
         playerBoard = jdbc.read();
-
-
         TextArea textArea;
         for (int x = 0; x < 9; x++) {
             for (int y = 0; y < 9; y++) {
@@ -192,8 +190,36 @@ public class GameForm implements Initializable {
 
                 } else if (playerBoard.getBoard(y,x).getFieldValue() == 0
                         && playerBoard.getBoard(y,x).getFieldValue() != 0
-                        && playerBoard.getBoard(y, x).getFieldValue() > 0
-                        && playerBoard.getBoard(y, x).getFieldValue() < 10) {
+                        && playerBoard.getBoard(y,x).getFieldValue() > 0
+                        && playerBoard.getBoard(y,x).getFieldValue() < 10) {
+                    textArea = new TextArea(String.valueOf(playerBoard.getBoard(y, x).getFieldValue()));
+                    textArea.setFont(Font.font(14));
+                    textArea.setStyle("-fx-background-color: red");
+                    obszarSudoku.add(textArea, x, y);
+                } else {
+                    TextArea textArea1 = new TextArea();
+                    textArea1.setFont(Font.font(14));
+                    textArea1.setStyle("-fx-background-color: red");
+                    obszarSudoku.add(textArea1, x, y);
+                }
+            }
+        }
+    }
+
+    public void prepareBoard() {
+        TextArea textArea;
+        for (int x = 0; x < 9; x++) {
+            for (int y = 0; y < 9; y++) {
+                if (playerBoardClone.getBoard(y, x).getFieldValue() != 0) {
+                    textArea = new TextArea(String.valueOf(playerBoard.getBoard(y, x).getFieldValue()));
+                    textArea.setEditable(false);
+                    textArea.setFont(Font.font(14));
+                    obszarSudoku.add(textArea, x, y);
+
+                } else if (playerBoardClone.getBoard(y,x).getFieldValue() == 0
+                        && playerBoard.getBoard(y,x).getFieldValue() != 0
+                        && playerBoard.getBoard(y,x).getFieldValue() > 0
+                        && playerBoard.getBoard(y,x).getFieldValue() < 10) {
                     textArea = new TextArea(String.valueOf(playerBoard.getBoard(y, x).getFieldValue()));
                     textArea.setFont(Font.font(14));
                     textArea.setStyle("-fx-background-color: red");
@@ -225,32 +251,7 @@ public class GameForm implements Initializable {
             } catch (ProblemWithFileException e) {
                 throw new GameBuildFailException(resourceBundle.getString("cantSave"),e);
             }
-
-            TextArea textArea;
-            for (int x = 0; x < 9; x++) {
-                for (int y = 0; y < 9; y++) {
-                    if (playerBoardClone.getBoard(y, x).getFieldValue() != 0) {
-                        textArea = new TextArea(String.valueOf(playerBoard.getBoard(y, x).getFieldValue()));
-                        textArea.setEditable(false);
-                        textArea.setFont(Font.font(14));
-                        obszarSudoku.add(textArea, x, y);
-
-                    } else if (playerBoardClone.getBoard(y,x).getFieldValue() == 0
-                            && playerBoard.getBoard(y,x).getFieldValue() != 0
-                            && playerBoard.getBoard(y, x).getFieldValue() > 0
-                            && playerBoard.getBoard(y, x).getFieldValue() < 10) {
-                        textArea = new TextArea(String.valueOf(playerBoard.getBoard(y, x).getFieldValue()));
-                        textArea.setFont(Font.font(14));
-                        textArea.setStyle("-fx-background-color: red");
-                        obszarSudoku.add(textArea, x, y);
-                    } else {
-                        TextArea textArea1 = new TextArea();
-                        textArea1.setFont(Font.font(14));
-                        textArea1.setStyle("-fx-background-color: red");
-                        obszarSudoku.add(textArea1, x, y);
-                    }
-                }
-            }
+            prepareBoard();
         }
 
     }

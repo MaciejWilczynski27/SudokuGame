@@ -54,22 +54,23 @@ public class Menu implements Initializable {
     private Logger logger = Logger.getLogger(Menu.class);
     private String language = "pl_PL";
 
+    private Stage stage = null;
     private Authors auth = new Authors();
 
     static
     GameForm gameForm = null;
 
-    public void setPoziom1() {
+    public void setPoziom1() throws GameBuildFailException {
         openForm(Level.EASY);
         logger.info(getResourceBundle().getString("lvlChoose") + " 1");
     }
 
-    public void setPoziom2() {
+    public void setPoziom2() throws GameBuildFailException {
         openForm(Level.MEDIUM);
         logger.info(getResourceBundle().getString("lvlChoose") + " 2");
     }
 
-    public void setPoziom3()  {
+    public void setPoziom3() throws GameBuildFailException {
         openForm(Level.HARD);
         logger.info(getResourceBundle().getString("lvlChoose") + " 3");
     }
@@ -115,19 +116,9 @@ public class Menu implements Initializable {
         }
     }
 
-    public void openForm(Level level) {
-
+    public void openForm(Level level) throws GameBuildFailException {
         Stage stage = new Stage();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("GameForm.fxml"));
-        try {
-            Parent root = loader.load();
-            Scene scene = new Scene(root, 600, 500);
-            stage.setTitle(getResourceBundle().getString("Game"));
-            stage.setScene(scene);
-            gameForm = loader.getController();
-        } catch (IOException e) {
-            logger.error(resourceBundle.getString("loadGameError"));
-        }
+        prepareStage(stage);
         gameForm.changeLanguage(language);
         try {
             gameForm.printBoard(level);
@@ -138,8 +129,7 @@ public class Menu implements Initializable {
 
     }
 
-    public void wczytajGre() throws GameBuildFailException, MissingSaveException {
-        Stage stage = new Stage();
+    public GameForm prepareStage(Stage stage) throws GameBuildFailException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("GameForm.fxml"));
         try {
             Parent root = loader.load();
@@ -151,6 +141,12 @@ public class Menu implements Initializable {
             logger.error(resourceBundle.getString("loadGameError"));
             throw new GameBuildFailException(resourceBundle.getString("loadGameError"),e);
         }
+        return gameForm;
+    }
+
+    public void wczytajGre() throws GameBuildFailException, MissingSaveException {
+        Stage stage = new Stage();
+        prepareStage(stage);
         gameForm.changeLanguage(language);
         try {
             gameForm.wczytajGre();

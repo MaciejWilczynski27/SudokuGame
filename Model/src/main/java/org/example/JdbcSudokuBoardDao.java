@@ -1,36 +1,27 @@
 package org.example;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.List;
 
 
 public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
     private static String filename;
-    int currentid = 0;
     private static Connection con;
 
     public JdbcSudokuBoardDao(String filename) {
         this.filename = filename;
-            con = connect();
     }
 
 
     public static Connection connect() {
         try {
-            Class.forName("org.sqlite.JDBC");
-            String url = "jdbc:sqlite:C:\\Users\\macie\\IdeaProjects\\mka_pn_1200_04\\connect\\" + filename;
+
+            String url = "jdbc:sqlite:C:" + filename;
             con = DriverManager.getConnection(url);
             con.setAutoCommit(false);
 
         } catch (SQLException e) {
             e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
         }
 
         return con;
@@ -39,32 +30,14 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
 
     @Override
     public SudokuBoard read() {
-        ResultSet rs = null;
         SudokuSolver solver = new BacktrackingSudokuSolver();
         SudokuBoard sudokuBoard = new SudokuBoard(solver);
 
 
-        String sql1 = "SELECT rowid "
-                + "FROM sudokuIndex WHERE name == ?";
-        try (PreparedStatement pstmt = con.prepareStatement(sql1);) {
-            pstmt.setString(1,filename);
-            rs  = pstmt.executeQuery();
-            currentid = rs.getInt(1);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (rs != null) {
-                    rs.close();
-                }
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-        }
-        String sql2 = String.format("SELECT xpos,ypos,content "
-                + "FROM sudokuContent WHERE boardId == %1$s",currentid);
-        try (Statement stmt = con.createStatement()) {
-            rs = stmt.executeQuery(sql2);
+        String sql2 = "SELECT xpos,ypos,content "
+                + "FROM sudokuContent";
+        try (Connection readCon = connect();
+             Statement stmt = readCon.createStatement();ResultSet rs = stmt.executeQuery(sql2)) {
 
             for (int i = 0; i < 82; i++) {
                 sudokuBoard.setBoard(rs.getInt("xpos"),
@@ -73,83 +46,58 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                rs.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
         return sudokuBoard;
     }
 
     @Override
     public void write(SudokuBoard obj)  {
+
+        String prepareTable = "DELETE FROM sudokuIndex";
+        String prepareTable1 = "DELETE FROM sudokuContent";
+
         String table1 = "CREATE TABLE IF NOT EXISTS sudokuIndex (\n"
-                + "\tname text NOT NULL UNIQUE\n"
+                + "\tid INTEGER NOT NULL\n"
                 +
                 ");";
         String table2 = "CREATE TABLE IF NOT EXISTS sudokuContent (\n"
-                + "\tboardId integer,\n"
+                + "\tboardId INTEGER NOT NULL,\n"
                 + "\txpos INTEGER NOT NULL,\n"
                 + "\typos INTEGER NOT NULL,\n"
                 + "\tcontent INTEGER NOT NULL,\n"
                 + "    FOREIGN KEY (boardId)\n"
                 + " "
-                + "       REFERENCES sudokuIndex (rowid)\n"
-                + "            ON DELETE CASCADE\n"
-                + "            ON UPDATE NO ACTION\n"
+                + "       REFERENCES sudokuIndex (id)\n"
                 + ");";
 
-        try (Statement stmt = con.createStatement()) {
+        try (Connection con = connect();Statement stmt = con.createStatement()) {
             stmt.execute(table1);
             con.commit();
             stmt.execute(table2);
             con.commit();
-        } catch (SQLException e) {
-            try {
-                con.rollback();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-
-        }
-
-        // save index
-        String sql1 = "INSERT OR REPLACE INTO sudokuIndex(name) VALUES(?)";
-        try (PreparedStatement prstmt = con.prepareStatement(sql1)) {
-            prstmt.setString(1,filename);
-            prstmt.executeUpdate();
-
-
+            stmt.executeUpdate(prepareTable);
+            con.commit();
+            stmt.executeUpdate(prepareTable1);
+            con.commit();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        //find index
-        ResultSet rs = null;
-        String sql2 = "SELECT rowid "
-                + "FROM sudokuIndex WHERE name == ?";
-        try (PreparedStatement pstmt = con.prepareStatement(sql2)) {
-            pstmt.setString(1,filename);
-            rs  = pstmt.executeQuery();
-            currentid = rs.getInt(1);
+
+        String sql1 = "INSERT OR REPLACE INTO sudokuIndex VALUES(1)";
+        try (Connection con = connect();Statement stmt = con.createStatement()) {
+            stmt.execute(sql1);
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                rs.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
+
 
         String sql3 = "INSERT OR REPLACE INTO sudokuContent(boardId,xpos,ypos,content) VALUES(?,?,?,?)";
-        try (PreparedStatement prstmt = con.prepareStatement(sql3)) {
+        try (Connection con = connect();PreparedStatement prstmt = con.prepareStatement(sql3)) {
 
             for (int i = 0; i < 9; i++) {
                 for (int j = 0; j < 9; j++) {
                     try {
-                        prstmt.setInt(1, currentid);
+                        prstmt.setInt(1,1);
                         prstmt.setInt(2, i);
                         prstmt.setInt(3, j);
                         prstmt.setInt(4, obj.getBoard(i,j).getFieldValue());
@@ -157,7 +105,6 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
                     } catch (SQLException e) {
                         try {
                             con.rollback();
-                            con.close();
                         } catch (SQLException ex) {
                             ex.printStackTrace();
                         }
@@ -165,21 +112,16 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
                     }
                 }
             }
+            try {
+                con.commit();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
-        }
-
-        try {
-            con.commit();
-            rs.close();
-        } catch (SQLException e) {
-            try {
-                con.rollback();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
 
         }
+
     }
 
     @Override

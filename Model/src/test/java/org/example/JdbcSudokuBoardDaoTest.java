@@ -7,18 +7,18 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class JdbcSudokuBoardDaoTest {
 
-//    public void PrepareDB() throws ClassNotFoundException {
-//
-//        String url = "commitTest.dtf";
-//        try (Connection con = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\Marcin\\IdeaProjects\\mka_pn_1200_04\\connect\\" + url)) {
-//            con.setAutoCommit(false);
-//            assertFalse(con.getAutoCommit());
-//            con.commit();
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//    }
+   public void PrepareDB() throws ClassNotFoundException {
+
+       String url = "commitTest.dtf";
+       try (Connection con = DriverManager.getConnection("jdbc:sqlite:C:" + url)) {
+           con.setAutoCommit(false);
+           assertFalse(con.getAutoCommit());
+           con.commit();
+
+       } catch (SQLException e) {
+           e.printStackTrace();
+       }
+    }
 
 
     @Test
