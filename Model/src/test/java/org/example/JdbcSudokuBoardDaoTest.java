@@ -27,7 +27,7 @@ public class JdbcSudokuBoardDaoTest {
         SudokuSolver solver = new BacktrackingSudokuSolver();
         SudokuBoard saveBoard = new SudokuBoard(solver);
         saveBoard.solveGame();
-        SudokuBoard loadBoard = null;
+        SudokuBoard loadBoard;
 
 
         try(Dao<SudokuBoard> jdbc = factory.getDatabaseDao("saveTest.dtf")) {
@@ -35,6 +35,7 @@ public class JdbcSudokuBoardDaoTest {
         loadBoard = jdbc.read();
         assertTrue(loadBoard.equals(saveBoard));
         assertFalse(loadBoard.hashCode() == saveBoard.hashCode());
+        assertNotEquals(loadBoard.toString(),saveBoard.toString());
 
 
         } catch (SQLException e) {

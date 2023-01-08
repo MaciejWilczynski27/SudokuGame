@@ -1,6 +1,12 @@
 package org.example;
 
-import java.sql.*;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 
@@ -37,7 +43,8 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
         String sql2 = "SELECT xpos,ypos,content "
                 + "FROM sudokuContent";
         try (Connection readCon = connect();
-             Statement stmt = readCon.createStatement();ResultSet rs = stmt.executeQuery(sql2)) {
+             Statement stmt = readCon.createStatement();
+             ResultSet rs = stmt.executeQuery(sql2)) {
 
             for (int i = 0; i < 82; i++) {
                 sudokuBoard.setBoard(rs.getInt("xpos"),
@@ -92,7 +99,8 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
 
 
         String sql3 = "INSERT OR REPLACE INTO sudokuContent(boardId,xpos,ypos,content) VALUES(?,?,?,?)";
-        try (Connection con = connect();PreparedStatement prstmt = con.prepareStatement(sql3)) {
+        try (Connection con = connect();
+             PreparedStatement prstmt = con.prepareStatement(sql3)) {
 
             for (int i = 0; i < 9; i++) {
                 for (int j = 0; j < 9; j++) {

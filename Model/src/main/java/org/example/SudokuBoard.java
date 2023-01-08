@@ -81,7 +81,6 @@ public class SudokuBoard implements Serializable,Cloneable {
     public void setBoard(int x, int y, int n) {
         board.get(x).set(y,new SudokuField());
         board.get(x).get(y).setFieldValue(n);
-
     }
 
     private boolean checkBoard() {

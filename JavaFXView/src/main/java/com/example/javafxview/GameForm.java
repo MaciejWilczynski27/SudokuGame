@@ -15,7 +15,18 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import org.apache.log4j.Logger;
-import org.example.*;
+import org.example.BacktrackingSudokuSolver;
+import org.example.CantSaveException;
+import org.example.Dao;
+import org.example.GameBuildFailException;
+import org.example.MissingSaveException;
+import org.example.ProblemWithFileException;
+import org.example.SudokuBoard;
+import org.example.SudokuBoardDaoFactory;
+import org.example.SudokuBox;
+import org.example.SudokuColumn;
+import org.example.SudokuRow;
+import org.example.SudokuSolver;
 
 
 
@@ -36,6 +47,7 @@ public class GameForm implements Initializable {
     SudokuBoard playerBoard;
     SudokuBoard playerBoardClone;
 
+    SudokuBoardDaoFactory sudokuBoardDaoFactory = new SudokuBoardDaoFactory();
 
     private Logger logger = Logger.getLogger(GameForm.class);
 
@@ -68,6 +80,12 @@ public class GameForm implements Initializable {
 
                 }
             }
+        }
+        try {
+            Dao<SudokuBoard> dao2 = sudokuBoardDaoFactory.getDatabaseDao("boardclone.dtf");
+            dao2.write(playerBoardClone);
+        } catch (ProblemWithFileException e) {
+            e.printStackTrace();
         }
 
     }
@@ -159,9 +177,9 @@ public class GameForm implements Initializable {
 
     public Node getNodeByRowColumnIndex(final int row, final int column,GridPane gridPane) {
         Node result = null;
-        ObservableList<Node> childrens = gridPane.getChildren();
+        ObservableList<Node> children = gridPane.getChildren();
 
-        for (Node node : childrens) {
+        for (Node node : children) {
             if (gridPane.getRowIndex(node) == row && gridPane.getColumnIndex(node) == column) {
                 result = node;
                 break;
@@ -175,15 +193,21 @@ public class GameForm implements Initializable {
         SudokuBoardDaoFactory factory = new SudokuBoardDaoFactory();
         Dao<SudokuBoard> jdbc = factory.getDatabaseDao("saveDB.dtf");
         playerBoard = jdbc.read();
-        prepareBoardConditions(playerBoard);
+        Dao<SudokuBoard> dao2 = factory.getDatabaseDao("boardclone.dtf");
+        playerBoardClone = dao2.read();
+        prepareBoardConditions();
     }
 
     public void prepareBoard() {
-        prepareBoardConditions(playerBoardClone);
+        prepareBoardConditions();
+
     }
 
-    private void prepareBoardConditions(SudokuBoard playerBoardClone) {
+    private void prepareBoardConditions() {
         TextArea textArea;
+        logger.error(playerBoardClone.print());
+        logger.error("Miedzy 1 tablica a druga");
+        logger.error(playerBoard.print());
         for (int x = 0; x < 9; x++) {
             for (int y = 0; y < 9; y++) {
                 if (playerBoardClone.getBoard(y, x).getFieldValue() != 0) {
